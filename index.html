@@ -1,0 +1,1936 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>مختبر الهاضم الرطب</title>
+<meta name="description" content="تصميم وتشغيل الهاضم اللاهوائي الرطب: الخلطة الثلاثية، المفاعل، الغاز، الاستقرار، تثبيط الأمونيا، H₂S، والإنذار المبكر. يعمل دون إنترنت.">
+<meta name="theme-color" content="#1c5bc9">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="مختبر الهاضم">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+
+@layer properties;
+@layer theme, base, components, utilities;
+@layer theme {
+:root, :host {
+--font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+"Noto Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+"Segoe UI Symbol", "Noto Color Emoji";
+--font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+"Courier New", monospace;
+--spacing: 0.25rem;
+--container-2xl: 42rem;
+--container-7xl: 80rem;
+--text-xs: 0.75rem;
+--text-xs--line-height: calc(1 / 0.75);
+--text-sm: 0.875rem;
+--text-sm--line-height: calc(1.25 / 0.875);
+--text-base: 1rem;
+--text-base--line-height: calc(1.5 / 1);
+--text-lg: 1.125rem;
+--text-lg--line-height: calc(1.75 / 1.125);
+--text-xl: 1.25rem;
+--text-xl--line-height: calc(1.75 / 1.25);
+--text-2xl: 1.5rem;
+--text-2xl--line-height: calc(2 / 1.5);
+--text-3xl: 1.875rem;
+--text-3xl--line-height: calc(2.25 / 1.875);
+--font-weight-normal: 400;
+--font-weight-medium: 500;
+--font-weight-semibold: 600;
+--font-weight-bold: 700;
+--font-weight-extrabold: 800;
+--leading-tight: 1.25;
+--radius-xl: 0.75rem;
+--radius-2xl: 1rem;
+--default-transition-duration: 150ms;
+--default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+--default-font-family: var(--font-sans);
+--default-mono-font-family: var(--font-mono);
+}
+}
+@layer base {
+*, ::after, ::before, ::backdrop, ::file-selector-button {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+border: 0 solid;
+}
+html, :host {
+line-height: 1.5;
+-webkit-text-size-adjust: 100%;
+tab-size: 4;
+font-family: var(--default-font-family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji");
+font-feature-settings: var(--default-font-feature-settings, normal);
+font-variation-settings: var(--default-font-variation-settings, normal);
+-webkit-tap-highlight-color: transparent;
+}
+hr {
+height: 0;
+color: inherit;
+border-top-width: 1px;
+}
+abbr:where([title]) {
+-webkit-text-decoration: underline dotted;
+text-decoration: underline dotted;
+}
+h1, h2, h3, h4, h5, h6 {
+font-size: inherit;
+font-weight: inherit;
+}
+a {
+color: inherit;
+-webkit-text-decoration: inherit;
+text-decoration: inherit;
+}
+b, strong {
+font-weight: bolder;
+}
+code, kbd, samp, pre {
+font-family: var(--default-mono-font-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+font-feature-settings: var(--default-mono-font-feature-settings, normal);
+font-variation-settings: var(--default-mono-font-variation-settings, normal);
+font-size: 1em;
+}
+small {
+font-size: 80%;
+}
+sub, sup {
+font-size: 75%;
+line-height: 0;
+position: relative;
+vertical-align: baseline;
+}
+sub {
+bottom: -0.25em;
+}
+sup {
+top: -0.5em;
+}
+table {
+text-indent: 0;
+border-color: inherit;
+border-collapse: collapse;
+}
+:-moz-focusring:where(:not(iframe)) {
+outline: auto;
+}
+progress {
+vertical-align: baseline;
+}
+summary {
+display: list-item;
+}
+ol, ul, menu {
+list-style: none;
+}
+img, svg, video, canvas, audio, iframe, embed, object {
+display: block;
+vertical-align: middle;
+}
+img, video {
+max-width: 100%;
+height: auto;
+}
+button, input, select, optgroup, textarea, ::file-selector-button {
+font: inherit;
+font-feature-settings: inherit;
+font-variation-settings: inherit;
+letter-spacing: inherit;
+color: inherit;
+border-radius: 0;
+background-color: transparent;
+opacity: 1;
+}
+:where(select:is([multiple], [size])) optgroup {
+font-weight: bolder;
+}
+:where(select:is([multiple], [size])) optgroup option {
+padding-inline-start: 20px;
+}
+::file-selector-button {
+margin-inline-end: 4px;
+}
+::placeholder {
+opacity: 1;
+}
+@supports (not (-webkit-appearance: -apple-pay-button))  or (contain-intrinsic-size: 1px) {
+::placeholder {
+color: currentcolor;
+@supports (color: color-mix(in lab, red, red)) {
+color: color-mix(in oklab, currentcolor 50%, transparent);
+}
+}
+}
+textarea {
+resize: vertical;
+}
+::-webkit-search-decoration {
+-webkit-appearance: none;
+}
+::-webkit-date-and-time-value {
+min-height: 1lh;
+text-align: inherit;
+}
+::-webkit-datetime-edit {
+display: inline-flex;
+}
+::-webkit-datetime-edit-fields-wrapper {
+padding: 0;
+}
+::-webkit-datetime-edit, ::-webkit-datetime-edit-year-field, ::-webkit-datetime-edit-month-field, ::-webkit-datetime-edit-day-field, ::-webkit-datetime-edit-hour-field, ::-webkit-datetime-edit-minute-field, ::-webkit-datetime-edit-second-field, ::-webkit-datetime-edit-millisecond-field, ::-webkit-datetime-edit-meridiem-field {
+padding-block: 0;
+}
+::-webkit-calendar-picker-indicator {
+line-height: 1;
+}
+:-moz-ui-invalid {
+box-shadow: none;
+}
+button, input:where([type="button"], [type="reset"], [type="submit"]), ::file-selector-button {
+appearance: button;
+}
+::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
+height: auto;
+}
+[hidden]:where(:not([hidden="until-found"])) {
+display: none !important;
+}
+}
+@layer utilities {
+.sr-only {
+position: absolute;
+width: 1px;
+height: 1px;
+padding: 0;
+margin: -1px;
+overflow: hidden;
+clip-path: inset(50%);
+white-space: nowrap;
+border-width: 0;
+}
+.fixed {
+position: fixed;
+}
+.relative {
+position: relative;
+}
+.bottom-4 {
+bottom: calc(var(--spacing) * 4);
+}
+.left-1\/2 {
+left: calc(1 / 2 * 100%);
+}
+.mx-auto {
+margin-inline: auto;
+}
+.ms-1 {
+margin-inline-start: var(--spacing);
+}
+.mt-1 {
+margin-top: var(--spacing);
+}
+.mt-3 {
+margin-top: calc(var(--spacing) * 3);
+}
+.mt-4 {
+margin-top: calc(var(--spacing) * 4);
+}
+.mb-1 {
+margin-bottom: var(--spacing);
+}
+.mb-6 {
+margin-bottom: calc(var(--spacing) * 6);
+}
+.flex {
+display: flex;
+}
+.grid {
+display: grid;
+}
+.hidden {
+display: none;
+}
+.inline-block {
+display: inline-block;
+}
+.table {
+display: table;
+}
+.h-2 {
+height: calc(var(--spacing) * 2);
+}
+.h-2\.5 {
+height: calc(var(--spacing) * 2.5);
+}
+.h-3 {
+height: calc(var(--spacing) * 3);
+}
+.h-4 {
+height: calc(var(--spacing) * 4);
+}
+.h-7 {
+height: calc(var(--spacing) * 7);
+}
+.h-40 {
+height: calc(var(--spacing) * 40);
+}
+.h-56 {
+height: calc(var(--spacing) * 56);
+}
+.h-64 {
+height: calc(var(--spacing) * 64);
+}
+.h-72 {
+height: calc(var(--spacing) * 72);
+}
+.w-2 {
+width: calc(var(--spacing) * 2);
+}
+.w-2\.5 {
+width: calc(var(--spacing) * 2.5);
+}
+.w-3 {
+width: calc(var(--spacing) * 3);
+}
+.w-4 {
+width: calc(var(--spacing) * 4);
+}
+.w-7 {
+width: calc(var(--spacing) * 7);
+}
+.w-auto {
+width: auto;
+}
+.w-full {
+width: 100%;
+}
+.max-w-2xl {
+max-width: var(--container-2xl);
+}
+.max-w-7xl {
+max-width: var(--container-7xl);
+}
+.min-w-0 {
+min-width: 0px;
+}
+.min-w-\[4\.5rem\] {
+min-width: 4.5rem;
+}
+.min-w-\[560px\] {
+min-width: 560px;
+}
+.min-w-max {
+min-width: max-content;
+}
+.-translate-x-1\/2 {
+--tw-translate-x: calc(calc(1 / 2 * 100%) * -1);
+translate: var(--tw-translate-x) var(--tw-translate-y);
+}
+.cursor-pointer {
+cursor: pointer;
+}
+.resize-y {
+resize: vertical;
+}
+.list-disc {
+list-style-type: disc;
+}
+.grid-cols-1 {
+grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+.grid-cols-2 {
+grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.flex-col {
+flex-direction: column;
+}
+.flex-wrap {
+flex-wrap: wrap;
+}
+.place-items-center {
+place-items: center;
+}
+.items-center {
+align-items: center;
+}
+.items-end {
+align-items: flex-end;
+}
+.items-start {
+align-items: flex-start;
+}
+.justify-between {
+justify-content: space-between;
+}
+.justify-end {
+justify-content: flex-end;
+}
+.gap-1 {
+gap: var(--spacing);
+}
+.gap-1\.5 {
+gap: calc(var(--spacing) * 1.5);
+}
+.gap-2 {
+gap: calc(var(--spacing) * 2);
+}
+.gap-3 {
+gap: calc(var(--spacing) * 3);
+}
+.gap-4 {
+gap: calc(var(--spacing) * 4);
+}
+.gap-5 {
+gap: calc(var(--spacing) * 5);
+}
+.gap-6 {
+gap: calc(var(--spacing) * 6);
+}
+.self-center {
+align-self: center;
+}
+.overflow-x-auto {
+overflow-x: auto;
+}
+.rounded-2xl {
+border-radius: var(--radius-2xl);
+}
+.rounded-full {
+border-radius: calc(infinity * 1px);
+}
+.rounded-xl {
+border-radius: var(--radius-xl);
+}
+.border {
+border-style: var(--tw-border-style);
+border-width: 1px;
+}
+.border-t {
+border-top-style: var(--tw-border-style);
+border-top-width: 1px;
+}
+.border-t-2 {
+border-top-style: var(--tw-border-style);
+border-top-width: 2px;
+}
+.border-b {
+border-bottom-style: var(--tw-border-style);
+border-bottom-width: 1px;
+}
+.border-dashed {
+--tw-border-style: dashed;
+border-style: dashed;
+}
+.border-accent\/40 {
+border-color: var(--accent);
+@supports (color: color-mix(in lab, red, red)) {
+border-color: color-mix(in oklab, var(--accent) 40%, transparent);
+}
+}
+.border-line {
+border-color: var(--line);
+}
+.bg-bad {
+background-color: var(--bad);
+}
+.bg-fg {
+background-color: var(--fg);
+}
+.bg-surface {
+background-color: var(--surface);
+}
+.bg-surface2 {
+background-color: var(--surface2);
+}
+.p-1 {
+padding: var(--spacing);
+}
+.p-3 {
+padding: calc(var(--spacing) * 3);
+}
+.p-4 {
+padding: calc(var(--spacing) * 4);
+}
+.px-2 {
+padding-inline: calc(var(--spacing) * 2);
+}
+.px-3 {
+padding-inline: calc(var(--spacing) * 3);
+}
+.px-4 {
+padding-inline: calc(var(--spacing) * 4);
+}
+.py-1 {
+padding-block: var(--spacing);
+}
+.py-2 {
+padding-block: calc(var(--spacing) * 2);
+}
+.py-6 {
+padding-block: calc(var(--spacing) * 6);
+}
+.ps-5 {
+padding-inline-start: calc(var(--spacing) * 5);
+}
+.pe-3 {
+padding-inline-end: calc(var(--spacing) * 3);
+}
+.pb-2 {
+padding-bottom: calc(var(--spacing) * 2);
+}
+.text-start {
+text-align: start;
+}
+.text-2xl {
+font-size: var(--text-2xl);
+line-height: var(--tw-leading, var(--text-2xl--line-height));
+}
+.text-base {
+font-size: var(--text-base);
+line-height: var(--tw-leading, var(--text-base--line-height));
+}
+.text-lg {
+font-size: var(--text-lg);
+line-height: var(--tw-leading, var(--text-lg--line-height));
+}
+.text-sm {
+font-size: var(--text-sm);
+line-height: var(--tw-leading, var(--text-sm--line-height));
+}
+.text-xl {
+font-size: var(--text-xl);
+line-height: var(--tw-leading, var(--text-xl--line-height));
+}
+.text-xs {
+font-size: var(--text-xs);
+line-height: var(--tw-leading, var(--text-xs--line-height));
+}
+.leading-7 {
+--tw-leading: calc(var(--spacing) * 7);
+line-height: calc(var(--spacing) * 7);
+}
+.leading-tight {
+--tw-leading: var(--leading-tight);
+line-height: var(--leading-tight);
+}
+.font-bold {
+--tw-font-weight: var(--font-weight-bold);
+font-weight: var(--font-weight-bold);
+}
+.font-extrabold {
+--tw-font-weight: var(--font-weight-extrabold);
+font-weight: var(--font-weight-extrabold);
+}
+.font-medium {
+--tw-font-weight: var(--font-weight-medium);
+font-weight: var(--font-weight-medium);
+}
+.font-normal {
+--tw-font-weight: var(--font-weight-normal);
+font-weight: var(--font-weight-normal);
+}
+.font-semibold {
+--tw-font-weight: var(--font-weight-semibold);
+font-weight: var(--font-weight-semibold);
+}
+.break-words {
+overflow-wrap: break-word;
+}
+.whitespace-normal {
+white-space: normal;
+}
+.whitespace-nowrap {
+white-space: nowrap;
+}
+.whitespace-pre-wrap {
+white-space: pre-wrap;
+}
+.text-bg {
+color: var(--bg);
+}
+.text-fg {
+color: var(--fg);
+}
+.text-muted {
+color: var(--muted);
+}
+.text-surface {
+color: var(--surface);
+}
+.accent-\[var\(--accent\)\] {
+accent-color: var(--accent);
+}
+.shadow-lg {
+--tw-shadow: 0 10px 15px -3px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 4px 6px -4px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+}
+.transition-transform {
+transition-property: transform, translate, scale, rotate;
+transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+transition-duration: var(--tw-duration, var(--default-transition-duration));
+}
+.last\:border-0:last-child {
+border-style: var(--tw-border-style);
+border-width: 0px;
+}
+@media (hover: hover) {
+.hover\:bg-surface2:hover {
+background-color: var(--surface2);
+}
+}
+@media (width >= 40rem) {
+.sm\:hidden {
+display: none;
+}
+.sm\:inline {
+display: inline;
+}
+.sm\:grid-cols-2 {
+grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.sm\:grid-cols-3 {
+grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.sm\:grid-cols-4 {
+grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.sm\:grid-cols-\[220px_minmax\(0\,1fr\)\] {
+grid-template-columns: 220px minmax(0,1fr);
+}
+.sm\:grid-cols-\[minmax\(0\,1fr\)_auto\] {
+grid-template-columns: minmax(0,1fr) auto;
+}
+.sm\:gap-2 {
+gap: calc(var(--spacing) * 2);
+}
+.sm\:p-5 {
+padding: calc(var(--spacing) * 5);
+}
+.sm\:px-3 {
+padding-inline: calc(var(--spacing) * 3);
+}
+.sm\:px-6 {
+padding-inline: calc(var(--spacing) * 6);
+}
+.sm\:text-3xl {
+font-size: var(--text-3xl);
+line-height: var(--tw-leading, var(--text-3xl--line-height));
+}
+}
+@media (width >= 64rem) {
+.lg\:sticky {
+position: sticky;
+}
+.lg\:top-4 {
+top: calc(var(--spacing) * 4);
+}
+.lg\:grid-cols-\[minmax\(0\,1fr\)_300px\] {
+grid-template-columns: minmax(0,1fr) 300px;
+}
+}
+}
+@property --tw-translate-x {
+syntax: "*";
+inherits: false;
+initial-value: 0;
+}
+@property --tw-translate-y {
+syntax: "*";
+inherits: false;
+initial-value: 0;
+}
+@property --tw-translate-z {
+syntax: "*";
+inherits: false;
+initial-value: 0;
+}
+@property --tw-border-style {
+syntax: "*";
+inherits: false;
+initial-value: solid;
+}
+@property --tw-leading {
+syntax: "*";
+inherits: false;
+}
+@property --tw-font-weight {
+syntax: "*";
+inherits: false;
+}
+@property --tw-shadow {
+syntax: "*";
+inherits: false;
+initial-value: 0 0 #0000;
+}
+@property --tw-shadow-color {
+syntax: "*";
+inherits: false;
+}
+@property --tw-shadow-alpha {
+syntax: "<percentage>";
+inherits: false;
+initial-value: 100%;
+}
+@property --tw-inset-shadow {
+syntax: "*";
+inherits: false;
+initial-value: 0 0 #0000;
+}
+@property --tw-inset-shadow-color {
+syntax: "*";
+inherits: false;
+}
+@property --tw-inset-shadow-alpha {
+syntax: "<percentage>";
+inherits: false;
+initial-value: 100%;
+}
+@property --tw-ring-color {
+syntax: "*";
+inherits: false;
+}
+@property --tw-ring-shadow {
+syntax: "*";
+inherits: false;
+initial-value: 0 0 #0000;
+}
+@property --tw-inset-ring-color {
+syntax: "*";
+inherits: false;
+}
+@property --tw-inset-ring-shadow {
+syntax: "*";
+inherits: false;
+initial-value: 0 0 #0000;
+}
+@property --tw-ring-inset {
+syntax: "*";
+inherits: false;
+}
+@property --tw-ring-offset-width {
+syntax: "<length>";
+inherits: false;
+initial-value: 0px;
+}
+@property --tw-ring-offset-color {
+syntax: "*";
+inherits: false;
+initial-value: #fff;
+}
+@property --tw-ring-offset-shadow {
+syntax: "*";
+inherits: false;
+initial-value: 0 0 #0000;
+}
+@layer properties {
+@supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
+*, ::before, ::after, ::backdrop {
+--tw-translate-x: 0;
+--tw-translate-y: 0;
+--tw-translate-z: 0;
+--tw-border-style: solid;
+--tw-leading: initial;
+--tw-font-weight: initial;
+--tw-shadow: 0 0 #0000;
+--tw-shadow-color: initial;
+--tw-shadow-alpha: 100%;
+--tw-inset-shadow: 0 0 #0000;
+--tw-inset-shadow-color: initial;
+--tw-inset-shadow-alpha: 100%;
+--tw-ring-color: initial;
+--tw-ring-shadow: 0 0 #0000;
+--tw-inset-ring-color: initial;
+--tw-inset-ring-shadow: 0 0 #0000;
+--tw-ring-inset: initial;
+--tw-ring-offset-width: 0px;
+--tw-ring-offset-color: #fff;
+--tw-ring-offset-shadow: 0 0 #0000;
+}
+}
+}
+
+</style>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);-webkit-text-size-adjust:100%}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;-webkit-tap-highlight-color:transparent}
+img{max-width:100%}[hidden]{display:none!important}
+button:not(:disabled),label[for]{cursor:pointer} button:disabled{opacity:.55;cursor:not-allowed}
+.overflow-x-auto{position:relative}
+.ic{width:1.15em;height:1.15em;flex:none}
+.step-ic{display:inline-grid;place-items:center;width:2rem;height:2rem;border-radius:10px;background:var(--accent-soft);color:var(--accent);flex:none}
+.step-ic .ic{width:1.15rem;height:1.15rem}
+.mc{position:absolute;inset:0;display:flex;flex-direction:column;touch-action:pan-y}
+.mc-legend{display:flex;flex-wrap:wrap;gap:.25rem .9rem;font-size:12.5px;line-height:1.4;padding-bottom:2px}
+.mc-li{display:inline-flex;align-items:center;gap:.35rem}
+.mc-li i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.mc-li i.dash{border-radius:2px;height:3px;width:14px}
+.mc-svg{display:block;overflow:visible}
+.mc-tip{position:absolute;z-index:5;pointer-events:none;background:var(--surface);color:var(--fg);border:1px solid var(--line);border-radius:10px;padding:.4rem .6rem;font-size:12.5px;line-height:1.5;box-shadow:0 6px 20px rgb(0 0 0/.12);max-width:260px}
+.mc-tip b{display:block;margin-bottom:2px}
+.mc-tip div{display:flex;align-items:center;gap:.35rem;white-space:nowrap}
+.mc-tip i{width:9px;height:9px;border-radius:50%;flex:none}
+</style>
+</head>
+<body>
+<div id="bootMsg" role="alert" style="margin:12px 16px;padding:12px 14px;border-radius:12px;background:#f8ecd3;color:#5c3a05;border:1px solid #e3c88f;font:15px/1.7 Tahoma,system-ui,sans-serif;direction:rtl">
+<b>جارٍ تشغيل الحسابات…</b><br>
+إن بقيت هذه الرسالة ظاهرة، فالمتصفح الذي فتح الملف لم يشغّل JavaScript، فتظهر الصفحة دون خطوات أو حسابات. أرسل صورة لهذه الرسالة.
+<div id="bootErr" style="margin-top:6px;font:12px/1.5 monospace;direction:ltr;text-align:left;white-space:pre-wrap"></div>
+</div>
+<script>
+window.__bootErrors=[];
+window.addEventListener('error',function(e){try{var m=(e.message||'error')+' @'+(e.lineno||'?')+':'+(e.colno||'?');window.__bootErrors.push(m);var d=document.getElementById('bootErr');var bm=document.getElementById('bootMsg');if(d){d.textContent+=m+String.fromCharCode(10);}if(bm){bm.hidden=false;bm.querySelector('b').textContent='حدث خطأ أثناء تشغيل الحسابات:';}}catch(_){}});
+document.getElementById('bootMsg').querySelector('b').textContent='JavaScript يعمل… جارٍ التحميل';
+</script>
+<script>
+/* MiniChart: محرك رسوم SVG مدمج بديل عن Chart.js — يدعم الإعدادات المستخدمة في مختبر الهاضم فقط */
+(function(){
+const NS='http://www.w3.org/2000/svg';
+function el(t,a,p){const e=document.createElementNS(NS,t);for(const k in a){if(a[k]!=null)e.setAttribute(k,a[k]);}if(p)p.appendChild(e);return e;}
+function nice(min,max,n){
+  if(!isFinite(min)||!isFinite(max)){min=0;max=1;}
+  if(min===max){if(min===0){max=1;}else{const d=Math.abs(min)*0.1;min-=d;max+=d;}}
+  const raw=(max-min)/(n||5), mag=Math.pow(10,Math.floor(Math.log10(raw))), r=raw/mag;
+  const step=(r<=1?1:r<=2?2:r<=2.5?2.5:r<=5?5:10)*mag;
+  const lo=Math.floor(min/step+1e-9)*step, hi=Math.ceil(max/step-1e-9)*step, t=[];
+  for(let v=lo;v<=hi+step*1e-6;v+=step)t.push(+v.toPrecision(12));
+  return t;
+}
+function fmtTick(v){const a=Math.abs(v);return v.toLocaleString('en-US',{maximumFractionDigits:a>=100?0:a>=1?2:4});}
+const first=c=>Array.isArray(c)?c[0]:c;
+
+class Chart{
+  constructor(canvas,cfg){
+    this.canvas=canvas;this.cfg=cfg;this.host=canvas.parentElement;canvas.hidden=true;
+    this.wrap=document.createElement('div');this.wrap.className='mc';
+    if(canvas.getAttribute('aria-label')){this.wrap.setAttribute('role','img');this.wrap.setAttribute('aria-label',canvas.getAttribute('aria-label'));}
+    this.host.appendChild(this.wrap);this._w=0;this._h=0;
+    this.render();
+    if(window.ResizeObserver){this.ro=new ResizeObserver(()=>{if(this.host.clientWidth!==this._w||this.host.clientHeight!==this._h)this.render();});this.ro.observe(this.host);}
+  }
+  destroy(){this.ro&&this.ro.disconnect();this._outside&&document.removeEventListener('pointerdown',this._outside,true);this.wrap.remove();this.canvas.hidden=false;}
+  render(){
+    const cfg=this.cfg,o=cfg.options||{},sc=o.scales||{},pl=o.plugins||{},D=Chart.defaults;
+    const W=this.host.clientWidth,H=this.host.clientHeight;this._w=W;this._h=H;
+    if(!W||!H)return;
+    this.wrap.innerHTML='';if(this._outside)document.removeEventListener('pointerdown',this._outside,true);
+    const font=D.font.family||'sans-serif',muted=D.color||'#666';
+    const dsAll=(cfg.data.datasets||[]).map((d,i)=>({...d,_i:i,_type:d.type||cfg.type}));
+    const ds=dsAll.filter(d=>!d.hidden);
+    // وسيلة الإيضاح
+    let legH=0;
+    if(!(pl.legend&&pl.legend.display===false)){
+      const lg=document.createElement('div');lg.className='mc-legend';
+      const lc=(pl.legend&&pl.legend.labels&&pl.legend.labels.color)||muted;
+      ds.forEach(d=>{if(!d.label)return;const it=document.createElement('span');it.className='mc-li';it.style.color=lc;
+        const sw=document.createElement('i');sw.style.background=first(d.borderColor&&d._type!=='bar'?d.borderColor:d.backgroundColor)||first(d.borderColor);
+        if(d.borderDash&&d.borderDash.length)sw.className='dash';
+        it.appendChild(sw);it.appendChild(document.createTextNode(d.label));lg.appendChild(it);});
+      if(lg.childNodes.length){this.wrap.appendChild(lg);legH=lg.offsetHeight+4;}
+    }
+    const h=Math.max(60,H-legH),w=W;
+    const svg=el('svg',{width:w,height:h,viewBox:`0 0 ${w} ${h}`,'font-family':font,'font-size':11,class:'mc-svg',direction:'ltr'},this.wrap);
+    const labels=cfg.data.labels||[];
+    const horiz=o.indexAxis==='y';
+    const xs=sc.x||{},isLinear=xs.type==='linear';
+    const n=labels.length;
+    // تجميع المحاور الرأسية
+    const vAxes={};
+    const valAxisId=d=>horiz?'x':(d.yAxisID||'y');
+    const ptsOf=d=>(d.data||[]).map((v,i)=>{
+      if(v!=null&&typeof v==='object')return{x:v.x,y:v.y,raw:v,i};
+      return{x:i,y:v,raw:v,i};});
+    ds.forEach(d=>{d._pts=ptsOf(d);});
+    const stacked=horiz?!!(sc.x&&sc.x.stacked):!!(sc.y&&sc.y.stacked);
+    // نطاق القيم
+    ds.forEach(d=>{const id=valAxisId(d);const a=vAxes[id]||(vAxes[id]={id,cfg:sc[id]||{},vals:[]});
+      d._pts.forEach(p=>{if(p.y!=null&&isFinite(p.y))a.vals.push(p.y);});});
+    if(stacked){const id=horiz?'x':'y',a=vAxes[id];if(a){a.vals=[];for(let i=0;i<n;i++){let s=0;ds.forEach(d=>{const v=d._pts[i]&&d._pts[i].y;if(isFinite(v))s+=v;});a.vals.push(s);}}}
+    const ids=Object.keys(vAxes);
+    ids.forEach((id,k)=>{const a=vAxes[id],c=a.cfg;
+      let mn=Math.min(...a.vals),mx=Math.max(...a.vals);
+      const hasBar=ds.some(d=>d._type==='bar');
+      if(c.beginAtZero||hasBar||c.min===0)mn=Math.min(0,mn);
+      if(c.min!=null)mn=c.min; if(c.max!=null)mx=Math.max(c.max,c.min!=null?c.min:-Infinity);
+      if(c.max!=null&&c.min==null&&mx<mn)mn=0;
+      let t=nice(mn,mx,horiz?5:5);
+      if(c.min!=null)t=t.filter(v=>v>=c.min-1e-9); if(c.max!=null)t=t.filter(v=>v<=c.max+1e-9);
+      a.min=c.min!=null?c.min:t[0];a.max=c.max!=null?c.max:t[t.length-1];if(a.max===a.min)a.max=a.min+1;a.ticks=t;
+      a.tf=(c.ticks&&c.ticks.callback)||fmtTick;
+      a.side=c.position||(k===0?'left':'left');});
+    if(!horiz&&ids.length>1&&vAxes[ids[0]].side===vAxes[ids[1]].side)vAxes[ids[1]].side=vAxes[ids[0]].side==='left'?'right':'left';
+    // الهوامش
+    const tw=s=>String(s).length*6.2+10;
+    let padL=8,padR=8,padT=8,padB=22;
+    let catLabelW=0;
+    const catHidden=sc.y&&sc.y.display===false;
+    if(horiz){catLabelW=catHidden?0:Math.min(w*0.35,Math.max(...labels.map(tw),20));(sc.y&&sc.y.position==='right')?padR+=catLabelW:padL+=catLabelW;padB=20;}
+    else{ids.forEach(id=>{const a=vAxes[id];const mw=Math.max(...a.ticks.map(v=>tw(a.tf(v))));a.side==='right'?padR+=mw:padL+=mw;});
+      if(ids.some(id=>vAxes[id].cfg.title&&vAxes[id].cfg.title.display))padT+=14;}
+    if(xs.title&&xs.title.display)padB+=16;
+    const pw=Math.max(10,w-padL-padR),ph=Math.max(10,h-padT-padB);
+    const x0=padL,y0=padT,x1=padL+pw,y1=padT+ph;
+    // مقياس المحور الأفقي
+    let xmin,xmax,xmap,catPos;
+    const rev=!!xs.reverse;
+    if(horiz){const a=vAxes.x;xmap=v=>x0+(v-a.min)/(a.max-a.min)*pw;}
+    else if(isLinear){xmin=xs.min!=null?xs.min:Math.min(...ds.flatMap(d=>d._pts.map(p=>p.x)));xmax=xs.max!=null?xs.max:Math.max(...ds.flatMap(d=>d._pts.map(p=>p.x)));
+      xmap=v=>{const f=(v-xmin)/((xmax-xmin)||1);return rev?x1-f*pw:x0+f*pw;};}
+    else{const hasBar=ds.some(d=>d._type==='bar');const band=pw/Math.max(1,hasBar?n:n-1);
+      catPos=i=>{const f=hasBar?(i+0.5)*band:i*band;return rev?x1-f:x0+f;};xmap=catPos;this._band=band;}
+    const ymap=(a,v)=>y1-(v-a.min)/(a.max-a.min)*ph;
+    const g=el('g',{},svg);
+    // الشبكة ومحاور القيم
+    if(horiz){const a=vAxes.x,gc=a.cfg.grid||{};
+      a.ticks.forEach(v=>{const X=xmap(v);if(gc.display!==false)el('line',{x1:X,x2:X,y1:y0,y2:y1,stroke:gc.color||'#ddd','stroke-width':1},g);
+        el('text',{x:X,y:y1+14,'text-anchor':'middle',fill:muted},g).textContent=a.tf(v);});
+      const band=ph/Math.max(1,n);
+      if(!catHidden)labels.forEach((l,i)=>{const Y=y0+(i+0.5)*band;const right=sc.y&&sc.y.position==='right';
+        const t=el('text',{x:right?x1+6:x0-6,y:Y+4,'text-anchor':right?'start':'end',fill:(sc.y&&sc.y.ticks&&sc.y.ticks.color)||muted},g);t.textContent=l;});
+      this._hb=band;
+    }else{
+      const main=vAxes[ids[0]];
+      ids.forEach((id,k)=>{const a=vAxes[id],gc=a.cfg.grid||{},right=a.side==='right';
+        a.ticks.forEach(v=>{const Y=ymap(a,v);
+          if(k===0&&gc.display!==false)el('line',{x1:x0,x2:x1,y1:Y,y2:Y,stroke:gc.color||'#ddd','stroke-width':1},g);
+          el('text',{x:right?x1+6:x0-6,y:Y+4,'text-anchor':right?'start':'end',fill:muted},g).textContent=a.tf(v);});
+        if(a.cfg.title&&a.cfg.title.display)el('text',{x:right?x1+4:x0-4,y:y0-6,'text-anchor':right?'start':'end',fill:a.cfg.title.color||muted,'font-weight':600},g).textContent=a.cfg.title.text;});
+      // تسميات المحور الأفقي
+      if(isLinear){nice(xmin,xmax,6).filter(v=>v>=xmin-1e-9&&v<=xmax+1e-9).forEach(v=>{const X=xmap(v);
+          if(xs.grid&&xs.grid.display!==false&&xs.grid.color)el('line',{x1:X,x2:X,y1:y0,y2:y1,stroke:xs.grid.color,'stroke-width':1},g);
+          el('text',{x:X,y:y1+14,'text-anchor':'middle',fill:muted},g).textContent=fmtTick(v);});}
+      else{const maxL=Math.max(2,Math.floor(pw/Math.max(34,Math.max(...labels.map(l=>tw(l)))+6)));const step=Math.ceil(n/maxL);
+        labels.forEach((l,i)=>{if(i%step!==0&&i!==n-1)return;if(i===n-1&&i%step!==0&&(n-1)%step<step*0.6)return;
+          const X=catPos(i);
+          if(xs.grid&&xs.grid.display!==false&&xs.grid.color)el('line',{x1:X,x2:X,y1:y0,y2:y1,stroke:xs.grid.color,'stroke-width':1},g);
+          const lab=String(l);el('text',{x:X,y:y1+14,'text-anchor':'middle',fill:(xs.ticks&&xs.ticks.color)||muted},g).textContent=lab.length>16?lab.slice(0,15)+'…':lab;});}
+      el('line',{x1:x0,x2:x1,y1:Math.min(y1,Math.max(y0,ymap(main,Math.max(main.min,Math.min(main.max,0))))),y2:Math.min(y1,Math.max(y0,ymap(main,Math.max(main.min,Math.min(main.max,0))))),stroke:muted,'stroke-opacity':.5,'stroke-width':1},g);
+    }
+    if(xs.title&&xs.title.display)el('text',{x:x0+pw/2,y:h-4,'text-anchor':'middle',fill:xs.title.color||muted,'font-weight':600},g).textContent=xs.title.text;
+    // الرسم
+    const plot=el('g',{},svg);
+    if(horiz){
+      const band=this._hb,bh=band*0.62,acc=new Array(n).fill(0);
+      ds.forEach(d=>{d._pts.forEach((p,i)=>{const v=+p.y||0;const a=acc[i],b=a+v;acc[i]=b;
+        const X0=xmap(a),X1=xmap(b),Y=y0+(i+0.5)*band-bh/2;
+        el('rect',{x:Math.min(X0,X1),y:Y,width:Math.max(0,Math.abs(X1-X0)-1),height:bh,rx:3,fill:Array.isArray(d.backgroundColor)?d.backgroundColor[i]:d.backgroundColor},plot);});});
+    }else{
+      // خط عمودي مرجعي
+      if(o.vline&&isFinite(o.vline.x)){const X=isLinear?xmap(o.vline.x):catPos(Math.max(0,Math.min(n-1,o.vline.x)));
+        el('line',{x1:X,x2:X,y1:y0,y2:y1,stroke:o.vline.color||muted,'stroke-dasharray':'5 4','stroke-width':1.2},plot);
+        el('text',{x:X,y:y0+12,'text-anchor':'middle',fill:o.vline.textColor||muted,'font-weight':600,'font-size':12,'paint-order':'stroke',stroke:'var(--surface)','stroke-width':4},plot).textContent=o.vline.label||'';}
+      const bars=ds.filter(d=>d._type==='bar');
+      bars.forEach((d,bi)=>{const a=vAxes[valAxisId(d)],bw=this._band*0.7/bars.length;
+        d._pts.forEach((p,i)=>{if(p.y==null||!isFinite(p.y))return;const X=catPos(i)-this._band*0.35+bi*bw;const Y0=ymap(a,Math.max(a.min,Math.min(a.max,0))),Y=ymap(a,p.y);
+          el('rect',{x:X+1,y:Math.min(Y,Y0),width:Math.max(1,bw-2),height:Math.max(1,Math.abs(Y0-Y)),rx:4,fill:Array.isArray(d.backgroundColor)?d.backgroundColor[i]:d.backgroundColor},plot);});});
+      ds.filter(d=>d._type==='line').forEach(d=>{const a=vAxes[valAxisId(d)];
+        const segs=[];let cur=[];d._pts.forEach(p=>{if(p.y==null||!isFinite(p.y)){if(cur.length)segs.push(cur);cur=[];}else cur.push([xmap(p.x),ymap(a,Math.max(a.min,Math.min(a.max,p.y)))]);});if(cur.length)segs.push(cur);
+        segs.forEach(s=>{const dstr=s.map((q,k)=>(k?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)).join(' ');
+          if(d.fill){const base=ymap(a,Math.max(a.min,0));el('path',{d:dstr+` L${s[s.length-1][0].toFixed(1)} ${base} L${s[0][0].toFixed(1)} ${base} Z`,fill:d.backgroundColor||'none',stroke:'none'},plot);}
+          el('path',{d:dstr,fill:'none',stroke:first(d.borderColor),'stroke-width':d.borderWidth||2,'stroke-dasharray':d.borderDash&&d.borderDash.length?d.borderDash.join(' '):null,'stroke-linejoin':'round','stroke-linecap':'round'},plot);
+          const r=d.pointRadius==null?3:d.pointRadius;if(r>0)s.forEach(q=>el('circle',{cx:q[0],cy:q[1],r,fill:first(d.backgroundColor)||first(d.borderColor)},plot));});});
+      ds.filter(d=>d._type==='scatter').forEach(d=>{const a=vAxes[valAxisId(d)];d._pts.forEach(p=>{if(p.y==null)return;
+        el('circle',{cx:xmap(p.x),cy:ymap(a,Math.max(a.min,Math.min(a.max,p.y))),r:d.pointRadius||4,fill:first(d.backgroundColor),stroke:'var(--surface)','stroke-width':2},plot);});});
+    }
+    // التلميح
+    const tip=document.createElement('div');tip.className='mc-tip';tip.hidden=true;this.wrap.appendChild(tip);
+    const cross=el('line',{y1:y0,y2:y1,stroke:muted,'stroke-opacity':.6,'stroke-width':1,visibility:'hidden'},svg);
+    const cb=(pl.tooltip&&pl.tooltip.callbacks)||{};
+    const show=ev=>{
+      const r=svg.getBoundingClientRect(),mx=ev.clientX-r.left,my=ev.clientY-r.top;
+      if(mx<x0-4||mx>x1+4||my<y0-4||my>y1+4){hide();return;}
+      let items=[],title='',anchorX=mx;
+      if(horiz){const i=Math.max(0,Math.min(n-1,Math.floor((my-y0)/this._hb)));title=labels[i];
+        items=ds.map(d=>({dataset:d,raw:d._pts[i]&&d._pts[i].y,label:labels[i]}));}
+      else if(isLinear){ds.forEach(d=>{let best=null,bd=1e9;d._pts.forEach(p=>{const dd=Math.abs(xmap(p.x)-mx);if(dd<bd){bd=dd;best=p;}});
+          if(best&&(d._type!=='scatter'||bd<24))items.push({dataset:d,raw:best.raw,label:''});});
+        if(items[0])anchorX=xmap(items[0].raw.x);}
+      else{let i=0,bd=1e9;for(let k=0;k<n;k++){const dd=Math.abs(catPos(k)-mx);if(dd<bd){bd=dd;i=k;}}
+        title=String(labels[i]);anchorX=catPos(i);items=ds.map(d=>({dataset:d,raw:d._pts[i]?d._pts[i].raw:null,label:labels[i]}));}
+      items=items.filter(it=>it.raw!=null);
+      if(!items.length){hide();return;}
+      if(cb.title)title=cb.title(items.map(it=>({label:it.label})));
+      tip.innerHTML='';
+      if(title){const t=document.createElement('b');t.textContent=title;tip.appendChild(t);}
+      items.forEach(it=>{const row=document.createElement('div');const sw=document.createElement('i');
+        sw.style.background=first(Array.isArray(it.dataset.backgroundColor)?it.dataset.backgroundColor:(it.dataset._type==='bar'?it.dataset.backgroundColor:it.dataset.borderColor||it.dataset.backgroundColor));
+        row.appendChild(sw);row.appendChild(document.createTextNode(cb.label?cb.label(it):`${it.dataset.label||''}: ${fmtTick(+it.raw)}`));tip.appendChild(row);});
+      tip.hidden=false;
+      if(!horiz){cross.setAttribute('x1',anchorX);cross.setAttribute('x2',anchorX);cross.setAttribute('visibility','visible');}
+      const tw2=tip.offsetWidth,th=tip.offsetHeight;
+      let L=mx+12;if(L+tw2>w)L=mx-tw2-12;if(L<0)L=Math.max(0,w-tw2);
+      let T=legH+my-th-10;if(T<0)T=legH+my+14;
+      tip.style.left=L+'px';tip.style.top=T+'px';
+    };
+    const hide=()=>{tip.hidden=true;cross.setAttribute('visibility','hidden');};
+    svg.addEventListener('pointermove',show);svg.addEventListener('pointerdown',show);svg.addEventListener('pointerleave',ev=>{if(ev.pointerType==='mouse')hide();});
+    this._outside=ev=>{if(!svg.contains(ev.target))hide();};document.addEventListener('pointerdown',this._outside,true);
+  }
+}
+Chart.defaults={font:{family:'sans-serif'},color:'#666'};
+window.Chart=Chart;
+})();
+
+const ICON={"inputs":"<svg stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\" class=\"ic\" height=\"1em\" width=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z\"></path><path d=\"m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65\"></path><path d=\"m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65\"></path></svg>","mix":"<svg stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\" class=\"ic\" height=\"1em\" width=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2\"></path><path d=\"M8.5 2h7\"></path><path d=\"M7 16h10\"></path></svg>","reactor":"<svg stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\" class=\"ic\" height=\"1em\" width=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><ellipse cx=\"12\" cy=\"5\" rx=\"9\" ry=\"3\"></ellipse><path d=\"M3 5v14a9 3 0 0 0 18 0V5\"></path></svg>","gas":"<svg stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\" class=\"ic\" height=\"1em\" width=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z\"></path></svg>","stability":"<svg stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\" class=\"ic\" height=\"1em\" width=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z\"></path><path d=\"m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z\"></path><path d=\"M7 21h10\"></path><path d=\"M12 3v18\"></path><path d=\"M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2\"></path></svg>","digestate":"<svg stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\" class=\"ic\" height=\"1em\" width=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"></path><path d=\"M12 8v4\"></path><path d=\"M12 16h.01\"></path></svg>","h2s":"<svg stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\" class=\"ic\" height=\"1em\" width=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242\"></path><path d=\"M16 17H7\"></path><path d=\"M17 21H9\"></path></svg>","risk":"<svg stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\" class=\"ic\" height=\"1em\" width=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7 18v-6a5 5 0 1 1 10 0v6\"></path><path d=\"M5 21a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2z\"></path><path d=\"M21 12h1\"></path><path d=\"M18.5 4.5 18 5\"></path><path d=\"M2 12h1\"></path><path d=\"M12 2v1\"></path><path d=\"m4.929 4.929.707.707\"></path><path d=\"M12 12v6\"></path></svg>","log":"<svg stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\" class=\"ic\" height=\"1em\" width=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8\"></path><path d=\"M3 3v5h5\"></path><path d=\"M12 7v5l4 2\"></path></svg>","reset":"<svg stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\" class=\"ic\" height=\"1em\" width=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8\"></path><path d=\"M3 3v5h5\"></path></svg>","save":"<svg stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\" class=\"ic\" height=\"1em\" width=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z\"></path><path d=\"M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7\"></path><path d=\"M7 3v4a1 1 0 0 0 1 1h7\"></path></svg>","prev":"<svg stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\" class=\"ic\" height=\"1em\" width=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"m9 18 6-6-6-6\"></path></svg>","next":"<svg stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\" class=\"ic\" height=\"1em\" width=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"m15 18-6-6 6-6\"></path></svg>","download":"<svg stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\" class=\"ic\" height=\"1em\" width=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path><polyline points=\"7 10 12 15 17 10\"></polyline><line x1=\"12\" x2=\"12\" y1=\"15\" y2=\"3\"></line></svg>","upload":"<svg stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\" class=\"ic\" height=\"1em\" width=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"></path><polyline points=\"17 8 12 3 7 8\"></polyline><line x1=\"12\" x2=\"12\" y1=\"3\" y2=\"15\"></line></svg>","trash":"<svg stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\" class=\"ic\" height=\"1em\" width=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M3 6h18\"></path><path d=\"M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6\"></path><path d=\"M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2\"></path><line x1=\"10\" x2=\"10\" y1=\"11\" y2=\"17\"></line><line x1=\"14\" x2=\"14\" y1=\"11\" y2=\"17\"></line></svg>","plus":"<svg stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\" class=\"ic\" height=\"1em\" width=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>","offline":"<svg stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\" class=\"ic\" height=\"1em\" width=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M12 20h.01\"></path><path d=\"M8.5 16.429a5 5 0 0 1 7 0\"></path><path d=\"M5 12.859a10 10 0 0 1 5.17-2.69\"></path><path d=\"M19 12.859a10 10 0 0 0-2.007-1.523\"></path><path d=\"M2 8.82a15 15 0 0 1 4.177-2.643\"></path><path d=\"M22 8.82a15 15 0 0 0-11.288-3.764\"></path><path d=\"m2 2 20 20\"></path></svg>","eq":"<svg stroke=\"currentColor\" fill=\"none\" stroke-width=\"2\" viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\" class=\"ic\" height=\"1em\" width=\"1em\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M18 7V5a1 1 0 0 0-1-1H6.5a.5.5 0 0 0-.4.8l4.5 6a2 2 0 0 1 0 2.4l-4.5 6a.5.5 0 0 0 .4.8H17a1 1 0 0 0 1-1v-2\"></path></svg>"};
+</script>
+
+<style>
+/* Layout: سلسلة خطوات أفقية + لوحة عمل رئيسية + عمود ملخص ثابت على الشاشات الواسعة */
+:root{
+  --bg:#f2f5f1; --surface:#ffffff; --surface2:#e8eee7; --line:#d2dbd1;
+  --fg:#16211a; --muted:#566659;
+  --accent:#1c5bc9; --accent-soft:#dde7fa;   /* لون لهب الميثان */
+  --earth:#85561c; --earth-soft:#f3e7d6;     /* لون الهاضم الناتج */
+  --c1:#85561c; --c2:#5d7a24; --c3:#1c5bc9;  /* روث / براز / مياه سوداء */
+  --ok:#1d7f46; --ok-soft:#dcf1e4; --warn:#9a6410; --warn-soft:#f8ecd3; --bad:#b4372a; --bad-soft:#f8e0dc;
+  --font-display:"Noto Kufi Arabic","IBM Plex Sans Arabic","Noto Sans Arabic","SF Arabic","Geeza Pro","Segoe UI",Tahoma,system-ui,sans-serif;
+  --font-body:"IBM Plex Sans Arabic","Noto Sans Arabic","SF Arabic","Geeza Pro","Segoe UI",Tahoma,system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1411; --surface:#151d18; --surface2:#1c2620; --line:#2b3930;
+  --fg:#e4ece6; --muted:#98aa9d;
+  --accent:#7aa5f2; --accent-soft:#1a2944;
+  --earth:#d59c58; --earth-soft:#33261a;
+  --c1:#d59c58; --c2:#a3c45f; --c3:#7aa5f2;
+  --ok:#55c98a; --ok-soft:#14301f; --warn:#e3ad52; --warn-soft:#352a14; --bad:#f08374; --bad-soft:#3a1d19;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#0e1411; --surface:#151d18; --surface2:#1c2620; --line:#2b3930;
+  --fg:#e4ece6; --muted:#98aa9d;
+  --accent:#7aa5f2; --accent-soft:#1a2944;
+  --earth:#d59c58; --earth-soft:#33261a;
+  --c1:#d59c58; --c2:#a3c45f; --c3:#7aa5f2;
+  --ok:#55c98a; --ok-soft:#14301f; --warn:#e3ad52; --warn-soft:#352a14; --bad:#f08374; --bad-soft:#3a1d19;
+  color-scheme:dark;
+}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:15px;line-height:1.7}
+h1,h2,h3{font-family:var(--font-display);text-wrap:balance}
+.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+input[type=number]{direction:ltr;text-align:right}
+.field{background:var(--surface);border:1px solid var(--line);color:var(--fg);border-radius:10px;padding:.5rem .7rem;width:100%;font-variant-numeric:tabular-nums}
+.field:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+.btn{display:inline-flex;align-items:center;gap:.4rem;border-radius:10px;padding:.55rem 1rem;font-weight:600;transition:background .15s,transform .1s}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible,.step-tab:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn-primary{background:var(--accent);color:var(--surface)}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-ghost{background:var(--surface2);color:var(--fg);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--accent)}
+.chip{display:inline-flex;align-items:center;gap:.3rem;border-radius:999px;padding:.1rem .6rem;font-size:12.5px;font-weight:600;white-space:nowrap}
+.chip-ok{background:var(--ok-soft);color:var(--ok)} .chip-warn{background:var(--warn-soft);color:var(--warn)} .chip-bad{background:var(--bad-soft);color:var(--bad)} .chip-info{background:var(--accent-soft);color:var(--accent)}
+.label-cap{font-size:12px;letter-spacing:.02em;color:var(--muted);font-weight:600}
+.step-tab[aria-current="step"] .step-dot{background:var(--accent);color:var(--surface);border-color:var(--accent)}
+.step-tab[aria-current="step"] .step-name{color:var(--fg)}
+.step-dot{border:1.5px solid var(--line);background:var(--surface);color:var(--muted)}
+.eq{font-family:var(--font-body);background:var(--surface2);border-radius:8px;padding:.35rem .7rem;display:block}
+details>summary{cursor:pointer;list-style:none} details>summary::-webkit-details-marker{display:none}
+details[open] .chev{transform:rotate(180deg)}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+<div dir="rtl" lang="ar" class="px-4 sm:px-6 py-6 max-w-7xl mx-auto">
+
+  <!-- الترويسة -->
+  <header class="flex flex-wrap items-end justify-between gap-4 mb-6">
+    <div class="min-w-0">
+      <p class="label-cap mb-1">هضم لاهوائي رطب · روث + براز + مياه سوداء</p>
+      <h1 class="text-2xl sm:text-3xl font-extrabold leading-tight">مختبر الهاضم الرطب</h1>
+      <p class="text-muted mt-1 max-w-2xl">صمّم خلطتك خطوة بخطوة: من خصائص المكونات الثلاثة إلى حجم المفاعل، إنتاج الغاز الحيوي، الاستقرار (القلوية و FOS/TAC و pH)، تثبيط الأمونيا، كبريتيد الهيدروجين H₂S، وقيمة الهاضم الناتج كسماد.</p>
+    </div>
+    <div class="flex flex-wrap items-center gap-2 text-sm">
+      <span class="chip chip-ok"><!--ic-offline--> يعمل دون إنترنت</span>
+      <span id="storeBadge" class="chip chip-info">جارٍ تجهيز الحفظ…</span>
+      <button id="resetBtn" class="btn btn-ghost text-sm" type="button"><!--ic-reset--> استعادة القيم المرجعية</button>
+    </div>
+  </header>
+
+  <!-- شريط الخطوات -->
+  <nav aria-label="خطوات التصميم" class="mb-6 overflow-x-auto">
+    <ol id="stepper" class="flex gap-1 sm:gap-2 min-w-max"></ol>
+  </nav>
+
+  <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_300px] gap-6 items-start">
+    <main id="stepPanel" class="min-w-0 flex flex-col gap-5"></main>
+
+    <!-- الملخص الحي -->
+    <aside class="lg:sticky lg:top-4 bg-surface border border-line rounded-2xl p-4 flex flex-col gap-3 min-w-0">
+      <h2 class="text-base font-bold">الملخص الحي</h2>
+      <div id="summary" class="flex flex-col gap-2 text-sm"></div>
+      <p class="text-xs text-muted">جميع القيم المرجعية تقديرية من الأدبيات، وتحتاج تأكيداً معملياً (م.ص.ك، م.ص.ط، كلداهل، اختبار BMP) قبل اعتماد التصميم.</p>
+    </aside>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-fg text-bg rounded-xl px-4 py-2 text-sm shadow-lg" style="padding-bottom:calc(.5rem + env(safe-area-inset-bottom,0px))" hidden></div>
+</div>
+
+<script>
+document.documentElement.setAttribute('dir','rtl');
+document.documentElement.setAttribute('lang','ar');
+
+/* ===================== الحالة والقيم المرجعية ===================== */
+const COMPS=[
+  {key:'manure',name:'روث الماشية',color:'--c1',hint:'قيم مرجعية تقريبية: م.ص.ط ≈ 85٪، ك ≈ 40٪، ن ≈ 2٪ من م.ص.ك'},
+  {key:'feces',name:'البراز الآدمي',color:'--c2',hint:'ن ≈ 5٪ من م.ص.ك؛ غني بالنيتروجين وسريع التحلل'},
+  {key:'bw',name:'المياه السوداء الخام',color:'--c3',hint:'م.ص.ك ≈ 1.5٪، م.ص.ط ≈ 80٪ من م.ص.ك، ن الكلي ≈ 1000 ملغ/لتر ⇐ ن ≈ 6.7٪ من م.ص.ك. مكوّن ثالث فعّال وليس مخففاً.'}
+];
+const DEFAULTS={
+  comps:{
+    manure:{mass:50,ts:15,vs:85,c:40,n:2,bmp:220,s:0.4},
+    feces:{mass:20,ts:25,vs:88,c:45,n:5,bmp:300,s:0.6},
+    bw:{mass:30,ts:1.5,vs:80,c:40,n:6.7,bmp:300,s:1.0}
+  },
+  targetTS:8,
+  fi:0.5,inocTS:3,inocVS:65,inocTAN:1500,inocHot:true,
+  density:1.0,fill:80,hrt:21,
+  ch4pct:60,k:0.15,etaE:35,etaH:45,tOp:55,tAmb:25,U:0.5,
+  minN:60,pH:7.6,
+  // الاستقرار (قوانين التشغيل 2 و3 و5)
+  TA:7500,VFA:1200,estTA:false,useCalcPH:true,BAtarget:6000,
+  // تثبيط الأمونيا (ADM1: K_I,NH3 = 0.0018 kmol N/m³ ≈ 25 ملغ ن/لتر)
+  Ki:25,
+  // الكبريت
+  sConv:70,feDose:0,feExcess:1.5,h2sTarget:200,
+  // مؤشر الخطر: قراءات توضيحية (h ساعة · vt = VFA/TIC · ph · ch4 ٪ · fan وpa صفر = غير مقيس)
+  series:[
+    {h:0,vt:0.22,ph:7.60,ch4:60,fan:0,pa:0},
+    {h:24,vt:0.24,ph:7.55,ch4:60,fan:0,pa:0},
+    {h:48,vt:0.27,ph:7.50,ch4:59,fan:0,pa:0},
+    {h:72,vt:0.31,ph:7.42,ch4:58,fan:0,pa:0},
+    {h:96,vt:0.35,ph:7.35,ch4:56,fan:0,pa:0},
+    {h:120,vt:0.39,ph:7.28,ch4:55,fan:0,pa:0}
+  ]
+};
+const mergeInputs=inp=>{const o=Object.assign(clone(DEFAULTS),clone(inp||{}));
+  o.comps={};for(const c of COMPS)o.comps[c.key]=Object.assign(clone(DEFAULTS.comps[c.key]),(inp?.comps||{})[c.key]||{});return o;};
+const clone=o=>JSON.parse(JSON.stringify(o));
+let S=clone(DEFAULTS);
+let current=0;
+const notes={}; // مسودات الملاحظات لكل خطوة
+
+const STEPS=[
+  {id:'inputs',title:'مكوّنات الخلطة',short:'المكوّنات'},
+  {id:'mix',title:'تصميم الخلطة والتخفيف',short:'الخلطة'},
+  {id:'reactor',title:'اللقاح وحجم المفاعل',short:'المفاعل'},
+  {id:'gas',title:'الغاز الحيوي والطاقة',short:'الغاز'},
+  {id:'stability',title:'القلوية و FOS/TAC و pH',short:'الاستقرار'},
+  {id:'digestate',title:'تثبيط الأمونيا والهاضم الناتج',short:'الأمونيا'},
+  {id:'h2s',title:'كبريتيد الهيدروجين H₂S',short:'H₂S'},
+  {id:'risk',title:'مؤشر الخطر والإنذار المبكر',short:'الخطر'},
+  {id:'log',title:'السجل والمقارنة',short:'السجل'}
+];
+const LOG=STEPS.length-1;
+
+/* ===================== أدوات ===================== */
+const $=s=>document.querySelector(s);
+const fmt=(x,d=2)=>Number.isFinite(x)?x.toLocaleString('en-US',{maximumFractionDigits:d,minimumFractionDigits:0}):'—';
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(msg){const t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>t.hidden=true,2600)}
+const cairo=ts=>new Date(ts).toLocaleString('ar-EG-u-nu-latn',{timeZone:'Africa/Cairo',dateStyle:'medium',timeStyle:'short'});
+
+/* ===================== مؤشر الخطر (منقول من digestion_logic.py) ===================== */
+const RISK_CFG={vt:[0.3,0.4],pa:1.4,fan:{thermophilic:[150,300],mesophilic:[80,150]}};
+function slopeDay(xs,ys,w=6){
+  const n=Math.min(w,xs.length); if(n<3) return 0;
+  const x=xs.slice(-n),y=ys.slice(-n); const mx=x.reduce((a,b)=>a+b,0)/n,my=y.reduce((a,b)=>a+b,0)/n;
+  let den=0,num=0; for(let i=0;i<n;i++){den+=(x[i]-mx)**2;num+=(x[i]-mx)*(y[i]-my);}
+  return den===0?0:24*num/den;
+}
+function riskScore(rows,mode){
+  let score=0; const why=[]; if(!rows.length) return {score:0,why,cls:'أخضر'};
+  const L=rows[rows.length-1], h=rows.map(r=>r.h), vt=rows.map(r=>r.vt);
+  const [warn,crit]=RISK_CFG.vt;
+  if(L.vt>crit){score+=30;why.push(`VFA/TIC = ${fmt(L.vt,2)} فوق ${crit}`);}
+  else if(L.vt>warn){score+=15;why.push(`VFA/TIC = ${fmt(L.vt,2)} فوق ${warn}`);}
+  const sv=slopeDay(h,vt); if(sv>0.05){score+=20;why.push(`ميل VFA/TIC = ${fmt(sv,3)} في اليوم`);}
+  if(rows.length>=4){const base=(vt[0]+vt[1]+vt[2])/3; if(base>0&&(L.vt-base)/base>0.10){score+=10;why.push('تغيّر VFA/TIC أكثر من 10٪ عن خط الأساس');}}
+  if(L.pa>0&&L.pa>RISK_CFG.pa){score+=15;why.push('نسبة البروبيونات إلى الأسيتات مرتفعة');}
+  if(L.fan>0){const [fw,fc]=RISK_CFG.fan[mode];
+    if(L.fan>fc){score+=20;why.push(`أ.ح = ${fmt(L.fan,0)} فوق ${fc}`);}
+    else if(L.fan>fw){score+=10;why.push(`أ.ح = ${fmt(L.fan,0)} فوق ${fw}`);}}
+  if(slopeDay(h,rows.map(r=>r.ph))<-0.10){score+=10;why.push('الـ pH يهبط أسرع من 0.1 في اليوم');}
+  if(slopeDay(h,rows.map(r=>r.ch4))<-2.0){score+=10;why.push('نسبة CH₄ تهبط أكثر من نقطتين في اليوم');}
+  score=Math.min(score,100);
+  return {score,why,cls:score>=60?'أحمر':score>=35?'برتقالي':score>=15?'أصفر':'أخضر'};
+}
+function riskEval(s){
+  const mode=s.tOp>=50?'thermophilic':'mesophilic';
+  const rows=(s.series||[]).map(r=>({h:+r.h||0,vt:+r.vt||0,ph:+r.ph||0,ch4:+r.ch4||0,fan:+r.fan||0,pa:+r.pa||0})).sort((a,b)=>a.h-b.h);
+  const now=riskScore(rows,mode);
+  let fc=now,fcRow=null;
+  if(rows.length>=3){
+    const L=rows[rows.length-1],h=rows.map(r=>r.h),cl=(v,a,b)=>Math.min(b,Math.max(a,v));
+    fcRow={h:L.h+48,vt:Math.max(0,L.vt+2*slopeDay(h,rows.map(r=>r.vt))),ph:cl(L.ph+2*slopeDay(h,rows.map(r=>r.ph)),4,9),
+      ch4:cl(L.ch4+2*slopeDay(h,rows.map(r=>r.ch4)),0,100),fan:L.fan,pa:L.pa};
+    fc=riskScore([...rows,fcRow],mode);
+  }
+  return {mode,rows,now,fc,fcRow,
+    sVt:slopeDay(rows.map(r=>r.h),rows.map(r=>r.vt)),sPh:slopeDay(rows.map(r=>r.h),rows.map(r=>r.ph)),sCh4:slopeDay(rows.map(r=>r.h),rows.map(r=>r.ch4))};
+}
+const riskChip=cls=>({'أخضر':['ok','أخضر · مستقر'],'أصفر':['warn','أصفر · مراقبة'],'برتقالي':['warn','برتقالي · تدخّل وقائي'],'أحمر':['bad','أحمر · خطر فشل']}[cls]);
+
+/* ===================== الحسابات ===================== */
+function compute(s){
+  const per={};let m=0,TS=0,VS=0,C=0,N=0,CH4L=0;
+  for(const c of COMPS){const p=s.comps[c.key];
+    const ts=p.mass*p.ts/100, vs=ts*p.vs/100, cc=ts*p.c/100, n=ts*p.n/100, ch=vs*p.bmp;
+    per[c.key]={mass:p.mass,ts,vs,c:cc,n,ch4L:ch};
+    m+=p.mass;TS+=ts;VS+=vs;C+=cc;N+=n;CH4L+=ch;}
+  const rawTS=m>0?TS/m*100:0;
+  const targetMass=s.targetTS>0?TS/(s.targetTS/100):m;
+  let water=targetMass-m, canReach=water>=0; if(!canReach) water=0;
+  const feedMass=m+water, feedTS=feedMass>0?TS/feedMass*100:0, vsOfTs=TS>0?VS/TS*100:0, CN=N>0?C/N:0;
+  // اللقاح
+  const inocVSkg=s.fi>0?VS/s.fi:0, inocTSkg=inocVSkg/(s.inocVS/100||1), inocMass=inocTSkg/(s.inocTS/100||1);
+  const rho=s.density*1000; // كغ/م³
+  const totalMass=feedMass+inocMass, Vw=totalMass/rho, Vtot=Vw/((s.fill||100)/100);
+  const reactorTS=totalMass>0?(TS+inocTSkg)/totalMass*100:0;
+  const OLR=Vw>0&&s.hrt>0?VS/Vw/s.hrt:0, FI=inocVSkg>0?VS/inocVSkg:0;
+  // الغاز
+  const CH4=CH4L/1000, frac=1-Math.exp(-s.k*s.hrt), CH4h=CH4*frac, BGh=CH4h/(s.ch4pct/100||1), BG=CH4/(s.ch4pct/100||1);
+  const specCH4=VS>0?CH4h*1000/VS:0;
+  const E=CH4h*9.97, elec=E*s.etaE/100, heatRec=E*s.etaH/100;
+  const dT=s.tOp-s.tAmb, heatMass=s.inocHot?feedMass:totalMass;
+  const Qheat=heatMass*4.18*dT/3600;
+  const D=Math.cbrt(4*Vtot/Math.PI), A=1.5*Math.PI*D*D, Qloss=s.U*A*dT*s.hrt*24/1000;
+  const heatNeed=Qheat+Qloss, balance=heatRec-heatNeed;
+  // كتلة الغاز والهاضم
+  const co2=BGh-CH4h, gasMass=CH4h*0.717+co2*1.977;
+  const digMass=totalMass-gasMass, digTS=digMass>0?(TS+inocTSkg-gasMass)/digMass*100:0, digVol=digMass/rho;
+  // الأمونيا
+  const inocVolL=inocMass/s.density; // لتر
+  const tanFeed=N*s.minN/100, tanInoc=s.inocTAN*inocVolL/1e6;
+  const TAN=Vw>0?(tanFeed+tanInoc)*1e6/(Vw*1000):0;
+  const TK=s.tOp+273.15, pKa=0.09018+2729.92/TK;
+  // ===== الاستقرار: القلوية، FOS/TAC، pH (هندرسون–هاسلبالخ) =====
+  const TAgen=3.57*TAN;                         // قلوية متولدة من تحلل البروتين (القانون 5)
+  const TA=s.estTA?TAgen:s.TA;
+  const BA=TA-0.71*s.VFA, FOSTAC=TA>0?s.VFA/TA:0;
+  const co2pct=100-s.ch4pct;
+  const KHco2=0.034*Math.exp(2400*(1/TK-1/298.15)); // مول/لتر·ضغط جوي
+  const HCO3=Math.max(BA,1)/50000, CO2aq=KHco2*co2pct/100;
+  const pHcalc=6.35+Math.log10(HCO3/CO2aq);
+  const pHuse=s.useCalcPH?pHcalc:s.pH;
+  const BAdef=Math.max(0,s.BAtarget-BA), NaHCO3=BAdef*84/50, NaHCO3kg=NaHCO3*Vw/1000; // ملغ/لتر × م³ ÷ 1000 = كغ
+  // ===== الأمونيا الحرة والتثبيط =====
+  const FAN=TAN/(1+Math.pow(10,pKa-pHuse)), fanFrac=TAN>0?FAN/TAN:0;
+  const Inh=1/(1+FAN/(s.Ki||1e-9));             // عامل التثبيط غير التنافسي (ADM1)
+  const CH4inh=CH4h*Inh, lossInh=CH4h-CH4inh;
+  const FANlim=s.Ki*(1/0.5-1);                  // FAN عند فقد 50٪ = Ki
+  const TANlim50=s.Ki*(1+Math.pow(10,pKa-pHuse));
+  const Ntot=N+tanInoc, NperM3=digVol>0?Ntot/digVol:0, NH4perM3=digVol>0?(tanFeed+tanInoc)/digVol:0;
+  // ===== كبريتيد الهيدروجين H₂S =====
+  let Stot=0; for(const c of COMPS){const p=s.comps[c.key]; Stot+=per[c.key].ts*(p.s||0)/100;} // كغ S
+  const Ssulf=Stot*s.sConv/100;                 // كغ S متحول إلى كبريتيد
+  const VL=Vw*1000;                             // لتر
+  const FeNeedPerS=55.85/32.06;                 // 1.742 غ Fe لكل غ S (FeS)
+  const Sprec=Math.min(Ssulf,(s.feDose*VL/1e6)/(FeNeedPerS*(s.feExcess||1))); // كغ S مترسب
+  const Sfree=Math.max(0,Ssulf-Sprec);
+  const pKa1=-98.08+5765.4/TK+15.0455*Math.log(TK); // Millero
+  const alphaH2S=1/(1+Math.pow(10,pHuse-pKa1));
+  const Hcp=0.1*Math.exp(2100*(1/TK-1/298.15));   // مول/لتر·ضغط جوي (Sander)
+  const Nbg=BGh*1000/22.414;                       // مول غاز حيوي
+  const nS=Sfree*1000/32.06;                        // مول S
+  const denom=VL+alphaH2S*Nbg/Hcp;
+  const CT=denom>0?nS/denom:0;                      // مول/لتر كبريتيد ذائب كلي
+  const pH2S=alphaH2S*CT/Hcp;                       // ضغط جزئي (atm) ≈ كسر مولي
+  const h2sPPM=pH2S*1e6;
+  const fracGas=denom>0?(alphaH2S*Nbg/Hcp)/denom:0;
+  const Sgas=Sfree*fracGas, Sliq=Sfree-Sgas;
+  const h2sLiq=alphaH2S*CT*34080;                   // ملغ H₂S/لتر حر غير متأين
+  const sulfLiq=CT*32060;                           // ملغ S/لتر كبريتيد ذائب كلي
+  const h2sGasVol=Sgas*1000/32.06*22.414/1000;      // م³ H₂S
+  // الحديد اللازم للوصول إلى الهدف
+  const keepFrac=h2sPPM>0?Math.min(1,s.h2sTarget/h2sPPM):1;
+  const SremoveNeed=Sfree*(1-keepFrac)+Sprec;       // إجمالي S يجب ترسيبه
+  const FeNeed=SremoveNeed*FeNeedPerS*(s.feExcess||1); // كغ Fe
+  const FeNeedMgL=VL>0?FeNeed*1e6/VL:0;
+  const rk=riskEval(s);
+  const airLo=BGh*0.03, airHi=BGh*0.06, o2Stoich=h2sGasVol*0.5, airStoich=o2Stoich/0.21;
+  return {per,m,TS,VS,C,N,CH4L,rawTS,targetMass,water,canReach,feedMass,feedTS,vsOfTs,CN,
+    inocVSkg,inocTSkg,inocMass,totalMass,Vw,Vtot,reactorTS,OLR,FI,D,A,
+    CH4,frac,CH4h,BGh,BG,specCH4,E,elec,heatRec,Qheat,Qloss,heatNeed,balance,heatMass,
+    gasMass,digMass,digTS,digVol,TAN,FAN,pKa,Ntot,NperM3,NH4perM3,tanFeed,tanInoc,
+    TAgen,TA,BA,FOSTAC,co2pct,KHco2,HCO3,CO2aq,pHcalc,pHuse,BAdef,NaHCO3,NaHCO3kg,
+    fanFrac,Inh,CH4inh,lossInh,FANlim,TANlim50,
+    Stot,Ssulf,Sprec,Sfree,pKa1,alphaH2S,Hcp,Nbg,CT,h2sPPM,fracGas,Sgas,Sliq,h2sLiq,sulfLiq,h2sGasVol,
+    FeNeed,FeNeedMgL,airLo,airHi,airStoich,riskNow:rk.now.score,riskFc:rk.fc.score,rk};
+}
+
+/* ===================== تقييم الحالة ===================== */
+function judge(kind,v){
+  switch(kind){
+    case 'cn': return v<15?['bad','منخفض جداً']:v<20?['warn','دون النطاق الشائع']:v<=30?['ok','ضمن 20–30']:['warn','مرتفع'];
+    case 'olr': {const [lo,hi]=S.tOp>=50?[2.5,5.5]:[1.5,3.5]; return v<lo?['info','تحميل خفيف']:v<=hi?['ok',`ضمن ${lo}–${hi}`]:v<=hi*1.2?['warn','مرتفع']:['bad','تحميل زائد'];}
+    case 'rts': return v<=12?['ok','نظام رطب']:v<15?['warn','قرب حد الرطب']:['bad','يقترب من الجاف'];
+    case 'tan': return v<1500?['ok','أقل من 1500']:v<3000?['warn','1500–3000']:['bad','أعلى من 3000'];
+    case 'fan': {const [w,c]=S.tOp>=50?[150,300]:[80,150]; return v<w?['ok','أقل من '+w]:v<=c?['warn',`${w}–${c}`]:['bad','أعلى من '+c];}
+    case 'heat': return v>=0?['ok','فائض حراري']:['bad','عجز حراري'];
+    case 'frac': return v>=0.9?['ok','تحلل شبه كامل']:v>=0.75?['warn','تحلل جزئي']:['bad','ز.م.هـ قصير'];
+    case 'fostac': return v<0.3?['ok','مستقر < 0.3']:v<=0.4?['warn','يحتاج مراقبة']:['bad','تحميل زائد'];
+    case 'ph': return v<6.8?['bad','حمضي']:v<=7.8?['ok','ضمن 6.8–7.8']:v<=8.2?['warn','قلوي مرتفع']:['bad','قلوي جداً'];
+    case 'inh': return v>=0.8?['ok','تثبيط طفيف']:v>=0.5?['warn','تثبيط متوسط']:['bad','تثبيط شديد'];
+    case 'ppm': return v<s_h2sT()?['ok','دون هدف المحرك']:v<1000?['warn','يحتاج إزالة']:['bad','مرتفع جداً'];
+    case 'h2sliq': return v<50?['ok','أقل من 50']:v<=150?['warn','50–150']:['bad','أعلى من 150'];
+    case 'ba': return v>=s_baT()?['ok','كافية']:['warn','دون المستهدف'];
+  }
+  return ['info',''];
+}
+function s_h2sT(){return S.h2sTarget} function s_baT(){return S.BAtarget}
+const chip=([k,t])=>`<span class="chip chip-${k}">${t}</span>`;
+
+/* ===================== مكوّنات واجهة مشتركة ===================== */
+function numField(id,label,val,{unit='',step='any',min=0,hint=''}={}){
+  return `<label class="flex flex-col gap-1 min-w-0" for="${id}">
+    <span class="text-sm font-medium">${label}${unit?` <span class="text-muted font-normal">(${unit})</span>`:''}</span>
+    <input class="field" id="${id}" type="number" inputmode="decimal" step="${step}" min="${min}" value="${val}" data-bind="${id}">
+    ${hint?`<span class="text-xs text-muted">${hint}</span>`:''}
+  </label>`;
+}
+function stat(label,value,unit,j){
+  return `<div class="flex flex-col gap-1 bg-surface2 rounded-xl p-3 min-w-0">
+    <span class="label-cap">${label}</span>
+    <span class="text-xl font-bold"><span class="num">${value}</span> <span class="text-sm font-medium text-muted">${unit||''}</span></span>
+    ${j?chip(j):''}
+  </div>`;
+}
+function card(inner,cls=''){return `<section class="bg-surface border border-line rounded-2xl p-4 sm:p-5 flex flex-col gap-4 min-w-0 ${cls}">${inner}</section>`}
+function equations(rows){
+  return `<details class="bg-surface border border-line rounded-2xl p-4">
+    <summary class="flex items-center justify-between font-semibold"><span>المعادلات المستخدمة في هذه الخطوة</span><span class="chev transition-transform text-muted">⌄</span></summary>
+    <div class="mt-3 flex flex-col gap-2 text-sm">${rows.map(r=>`<code class="eq">${r}</code>`).join('')}</div>
+  </details>`;
+}
+function saveBox(stepIdx){
+  const v=notes[stepIdx]||'';
+  return card(`
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <h3 class="font-bold">ملاحظاتك على هذه الخطوة</h3>
+      <span class="text-xs text-muted">يُحفظ النص مع جميع المدخلات والنتائج الحالية</span>
+    </div>
+    <label for="note-${stepIdx}" class="sr-only">ملاحظة الخطوة</label>
+    <textarea id="note-${stepIdx}" rows="3" class="field resize-y leading-7" placeholder="اكتب ملاحظة: نتيجة تحليل معملي، قرار تصميم، أو سؤال تريد متابعته…">${esc(v)}</textarea>
+    <div class="flex flex-wrap items-center gap-2">
+      <button type="button" class="btn btn-primary" data-save="${stepIdx}">${ICON.save} حفظ هذه الخطوة</button>
+      ${stepIdx>0?`<button type="button" class="btn btn-ghost" data-go="${stepIdx-1}">${ICON.prev} الخطوة السابقة</button>`:''}
+      ${stepIdx<STEPS.length-1?`<button type="button" class="btn btn-ghost" data-go="${stepIdx+1}">الخطوة التالية ${ICON.next}</button>`:''}
+    </div>`,'border-accent/40');
+}
+
+/* ===================== الخطوات ===================== */
+function viewInputs(R){
+  const rows=COMPS.map(c=>{const p=S.comps[c.key];
+    return card(`
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <h3 class="font-bold flex items-center gap-2"><span class="inline-block w-3 h-3 rounded-full" style="background:var(${c.color})"></span>${c.name}</h3>
+        <span class="text-sm text-muted">م.ص.ك: <span class="num font-semibold text-fg">${fmt(R.per[c.key].ts)}</span> كغ · ن: <span class="num font-semibold text-fg">${fmt(R.per[c.key].n,3)}</span> كغ</span>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        ${numField(`comps.${c.key}.mass`,'الكتلة الرطبة',p.mass,{unit:'كغ'})}
+        ${numField(`comps.${c.key}.ts`,'م.ص.ك',p.ts,{unit:'٪ من الكتلة'})}
+        ${numField(`comps.${c.key}.vs`,'م.ص.ط',p.vs,{unit:'٪ من م.ص.ك'})}
+        ${numField(`comps.${c.key}.c`,'الكربون ك',p.c,{unit:'٪ من م.ص.ك'})}
+        ${numField(`comps.${c.key}.n`,'النيتروجين ن',p.n,{unit:'٪ من م.ص.ك'})}
+        ${numField(`comps.${c.key}.bmp`,'جهد الميثان BMP',p.bmp,{unit:'لتر CH₄/كغ م.ص.ط'})}
+        ${numField(`comps.${c.key}.s`,'الكبريت الكلي كب',p.s,{unit:'٪ من م.ص.ك',step:'0.05'})}
+        <div class="flex flex-col justify-end text-xs text-muted pb-2">كب = <span class="num font-semibold text-fg">${fmt(R.per[c.key].ts*p.s/100*1000,1)}</span> غ كبريت</div>
+      </div>
+      <p class="text-xs text-muted">${c.hint}</p>`)}).join('');
+  return `
+  ${card(`<h2 class="text-xl font-bold flex items-center gap-2"><span class="step-ic">${ICON.inputs}</span>1. مكوّنات الخلطة الثلاثة</h2>
+    <p class="text-muted">أدخل كل مكوّن على حدة. المياه السوداء تُحسب كمكوّن مستقل يساهم بالمواد الصلبة والكربون والنيتروجين، ولا تُدمج مع البراز. الأساس الافتراضي 100 كغ لتسهيل المقارنة.</p>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      ${stat('الكتلة الكلية',fmt(R.m,1),'كغ')}
+      ${stat('م.ص.ك الخام',fmt(R.rawTS,2),'٪')}
+      ${stat('م.ص.ط الكلية',fmt(R.VS,2),'كغ')}
+      ${stat('ك/ن الخام',fmt(R.CN,1),'',judge('cn',R.CN))}
+    </div>`)}
+  ${rows}
+  ${equations(['م.ص.ك (كغ) = الكتلة × م.ص.ك٪ ÷ 100','م.ص.ط (كغ) = م.ص.ك × م.ص.ط٪ ÷ 100','ك (كغ) = م.ص.ك × ك٪ ÷ 100   ·   ن (كغ) = م.ص.ك × ن٪ ÷ 100','ن٪ للمياه السوداء = ن الكلي (ملغ/لتر) ÷ م.ص.ك (ملغ/لتر) × 100 = 1000 ÷ 15000 × 100 ≈ 6.7٪'])}
+  ${saveBox(0)}`;
+}
+
+function viewMix(R){
+  const t=COMPS.map(c=>{const p=R.per[c.key];return `<tr class="border-t border-line">
+    <td class="py-2 pe-3 font-medium whitespace-nowrap"><span class="inline-block w-2.5 h-2.5 rounded-full ms-1" style="background:var(${c.color})"></span> ${c.name}</td>
+    <td class="num py-2 px-2">${fmt(p.mass,1)}</td><td class="num py-2 px-2">${fmt(p.ts,2)}</td><td class="num py-2 px-2">${fmt(p.vs,2)}</td>
+    <td class="num py-2 px-2">${fmt(p.c,2)}</td><td class="num py-2 px-2">${fmt(p.n,3)}</td><td class="num py-2 px-2">${p.n>0?fmt(p.c/p.n,1):'—'}</td></tr>`}).join('');
+  const warnWater=!R.canReach?`<div class="chip chip-bad whitespace-normal py-2 px-3 rounded-xl">الخلطة الخام أخفّ من م.ص.ك المستهدف (${fmt(R.rawTS,2)}٪ &lt; ${S.targetTS}٪). لا يمكن الوصول بالتخفيف؛ قلّل المياه السوداء أو ارفع نسبة الروث.</div>`:'';
+  return `
+  ${card(`<h2 class="text-xl font-bold flex items-center gap-2"><span class="step-ic">${ICON.mix}</span>2. تصميم الخلطة والتخفيف</h2>
+    <div class="grid sm:grid-cols-[220px_minmax(0,1fr)] gap-4 items-start">
+      <div class="flex flex-col gap-3">
+        ${numField('targetTS','م.ص.ك المستهدف للخلطة',S.targetTS,{unit:'٪',hint:'قيمتك المعتمدة 8٪. مداخل الأنظمة الرطبة عادة 9–14٪.'})}
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        ${stat('ماء التخفيف المطلوب',fmt(R.water,1),'كغ')}
+        ${stat('كتلة الخلطة النهائية',fmt(R.feedMass,1),'كغ')}
+        ${stat('م.ص.ك النهائي',fmt(R.feedTS,2),'٪')}
+        ${stat('ك/ن للخلطة',fmt(R.CN,1),'',judge('cn',R.CN))}
+      </div>
+    </div>
+    ${warnWater}
+    <p class="text-sm text-muted">الماء لا يغيّر ك/ن، بل يغيّر التركيز فقط. انخفاض ك/ن هنا متوقع لأن المكونات الثلاثة غنية بالنيتروجين، لذلك تصبح الأمونيا (الخطوة 5) هي الخطر التشغيلي الأول وليس ك/ن وحده.</p>`)}
+  ${card(`<div class="flex flex-wrap items-center justify-between gap-2"><h3 class="font-bold">مساهمة كل مكوّن في الخلطة</h3>
+      <span class="text-xs text-muted">مرّر المؤشر أو المس الأعمدة لرؤية القيم</span></div>
+    <div class="relative h-64"><canvas id="mixChart" aria-label="رسم مساهمة المكونات"></canvas></div>
+    <div class="overflow-x-auto"><table class="w-full text-sm min-w-[560px]">
+      <thead><tr class="text-muted text-start"><th class="text-start py-1 pe-3 font-semibold">المكوّن</th><th class="text-start px-2 font-semibold">الكتلة كغ</th><th class="text-start px-2 font-semibold">م.ص.ك كغ</th><th class="text-start px-2 font-semibold">م.ص.ط كغ</th><th class="text-start px-2 font-semibold">ك كغ</th><th class="text-start px-2 font-semibold">ن كغ</th><th class="text-start px-2 font-semibold">ك/ن</th></tr></thead>
+      <tbody>${t}<tr class="border-t-2 border-line font-bold"><td class="py-2 pe-3">المجموع</td><td class="num px-2">${fmt(R.m,1)}</td><td class="num px-2">${fmt(R.TS,2)}</td><td class="num px-2">${fmt(R.VS,2)}</td><td class="num px-2">${fmt(R.C,2)}</td><td class="num px-2">${fmt(R.N,3)}</td><td class="num px-2">${fmt(R.CN,1)}</td></tr></tbody>
+    </table></div>`)}
+  ${equations(['ماء التخفيف = Σم.ص.ك ÷ (م.ص.ك المستهدف ÷ 100) − Σالكتلة','م.ص.ك النهائي٪ = Σم.ص.ك ÷ (Σالكتلة + الماء) × 100','ك/ن = (ك₁ + ك₂ + ك₃) ÷ (ن₁ + ن₂ + ن₃)   — معادلة ثلاثية المكونات'])}
+  ${saveBox(1)}`;
+}
+
+function viewReactor(R){
+  return `
+  ${card(`<h2 class="text-xl font-bold flex items-center gap-2"><span class="step-ic">${ICON.reactor}</span>3. اللقاح وحجم المفاعل</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+      ${numField('fi','نسبة التغذية إلى اللقاح F/I',S.fi,{unit:'أساس م.ص.ط',step:'0.05',hint:'VDI 4630: F/I ≤ 0.5 لاختبار BMP'})}
+      ${numField('inocTS','م.ص.ك للقاح',S.inocTS,{unit:'٪',hint:'VDI 4630: أقل من 4٪'})}
+      ${numField('inocVS','م.ص.ط للقاح',S.inocVS,{unit:'٪ من م.ص.ك',hint:'50–80٪'})}
+      ${numField('hrt','ز.م.هـ',S.hrt,{unit:'يوم',step:'1'})}
+      ${numField('density','كثافة الخلطة',S.density,{unit:'طن/م³',step:'0.01'})}
+      ${numField('fill','نسبة الملء',S.fill,{unit:'٪',step:'1',hint:'الباقي فراغ علوي لتجميع الغاز'})}
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      ${stat('كتلة اللقاح',fmt(R.inocMass,0),'كغ')}
+      ${stat('الحجم العامل',fmt(R.Vw,2),'م³')}
+      ${stat('الحجم الكلي للمفاعل',fmt(R.Vtot,2),'م³')}
+      ${stat('م.ص.ك داخل المفاعل',fmt(R.reactorTS,2),'٪',judge('rts',R.reactorTS))}
+      ${stat('م.ت.ع المكافئ',fmt(R.OLR,2),'كغ م.ص.ط/م³/يوم',judge('olr',R.OLR))}
+      ${stat('م.ص.ط للقاح',fmt(R.inocVSkg,2),'كغ')}
+      ${stat('قطر خزان أسطواني (ع = ق)',fmt(R.D,2),'م')}
+      ${stat('مساحة السطح',fmt(R.A,2),'م²')}
+    </div>
+    <p class="text-sm text-muted">نسبة F/I ≤ 0.5 وضعتها VDI 4630 لاختبارات BMP المعملية. في المفاعل الدفعي الكامل قد تكفي نسبة لقاح أقل، لكن خفضها يرفع خطر التحمّض في البداية؛ جرّب القيم هنا ثم أكّدها باختبار BMP على خلطتك الفعلية. لاحظ أن كتلة اللقاح غالباً هي التي تحدد حجم المفاعل.</p>`)}
+  ${equations(['م.ص.ط اللقاح = Σم.ص.ط التغذية ÷ F/I','كتلة اللقاح = م.ص.ط اللقاح ÷ (م.ص.ط٪ ÷ 100) ÷ (م.ص.ك٪ ÷ 100)','الحجم العامل = (كتلة الخلطة + كتلة اللقاح) ÷ الكثافة','الحجم الكلي = الحجم العامل ÷ نسبة الملء','م.ت.ع = Σم.ص.ط التغذية ÷ (الحجم العامل × ز.م.هـ)'])}
+  ${saveBox(2)}`;
+}
+
+function viewGas(R){
+  return `
+  ${card(`<h2 class="text-xl font-bold flex items-center gap-2"><span class="step-ic">${ICON.gas}</span>4. الغاز الحيوي والطاقة</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      ${numField('ch4pct','نسبة الميثان',S.ch4pct,{unit:'٪'})}
+      ${numField('k','ثابت التحلل k',S.k,{unit:'يوم⁻¹',step:'0.01',hint:'حركية الرتبة الأولى'})}
+      ${numField('tOp','حرارة التشغيل',S.tOp,{unit:'°م'})}
+      ${numField('tAmb','الحرارة المحيطة',S.tAmb,{unit:'°م'})}
+      ${numField('etaE','كفاءة الكهرباء CHP',S.etaE,{unit:'٪'})}
+      ${numField('etaH','كفاءة استرجاع الحرارة',S.etaH,{unit:'٪'})}
+      ${numField('U','معامل انتقال الحرارة U',S.U,{unit:'واط/م²·ك',step:'0.05',hint:'معزول ≈ 0.3–0.6'})}
+      <label class="flex items-center gap-2 text-sm self-center mt-4" for="inocHot"><input id="inocHot" type="checkbox" data-bind="inocHot" class="w-4 h-4 accent-[var(--accent)]" ${S.inocHot?'checked':''}> اللقاح ساخن مسبقاً (من هاضم حراري)</label>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      ${stat('الميثان خلال ز.م.هـ',fmt(R.CH4h,2),'م³')}
+      ${stat('الغاز الحيوي',fmt(R.BGh,2),'م³')}
+      ${stat('نسبة التحلل المنجزة',fmt(R.frac*100,1),'٪ من BMP',judge('frac',R.frac))}
+      ${stat('الإنتاجية النوعية',fmt(R.specCH4,0),'لتر CH₄/كغ م.ص.ط')}
+      ${stat('الطاقة الكيميائية',fmt(R.E,1),'ك.و.س')}
+      ${stat('كهرباء متوقعة',fmt(R.elec,1),'ك.و.س')}
+      ${stat('حرارة مسترجعة',fmt(R.heatRec,1),'ك.و.س')}
+      ${stat('الميزان الحراري',fmt(R.balance,1),'ك.و.س',judge('heat',R.balance))}
+    </div>
+    <p class="text-sm text-muted">احتياج الحرارة = تسخين ابتدائي <span class="num">${fmt(R.Qheat,1)}</span> ك.و.س + فقد عبر الجدران طوال ز.م.هـ <span class="num">${fmt(R.Qloss,1)}</span> ك.و.س = <span class="num font-semibold text-fg">${fmt(R.heatNeed,1)}</span> ك.و.س.</p>`)}
+  ${card(`<div class="flex flex-wrap items-center justify-between gap-2"><h3 class="font-bold">منحنى إنتاج الميثان عبر الزمن</h3>
+      <div class="flex gap-1" role="group" aria-label="نوع العرض">
+        <button type="button" class="btn btn-ghost text-xs py-1" data-gasview="cum">التراكمي</button>
+        <button type="button" class="btn btn-ghost text-xs py-1" data-gasview="rate">المعدل اليومي</button>
+        <button type="button" class="btn btn-ghost text-xs py-1" data-gasview="both">كلاهما</button>
+      </div></div>
+    <div class="relative h-72"><canvas id="gasChart" aria-label="منحنى إنتاج الميثان"></canvas></div>
+    <p class="text-xs text-muted">الخط المتقطع العمودي يمثل نهاية ز.م.هـ. غيّر k أو ز.م.هـ وراقب ما يُفقد من جهد الميثان.</p>`)}
+  ${equations(['الميثان الكامن (لتر) = Σ(م.ص.ط × BMP) للمكونات الثلاثة','الميثان(ز) = الميثان الكامن × (1 − e^(−k × ز))','الغاز الحيوي = الميثان ÷ نسبة الميثان','الطاقة (ك.و.س) = الميثان (م³) × 9.97','تسخين ابتدائي = الكتلة × 4.18 × (ح التشغيل − ح المحيط) ÷ 3600','فقد الجدران = U × المساحة × Δح × ز.م.هـ × 24 ÷ 1000'])}
+  ${saveBox(3)}`;
+}
+
+function viewDigestate(R){
+  return `
+  ${card(`<h2 class="text-xl font-bold flex items-center gap-2"><span class="step-ic">${ICON.digestate}</span>6. تثبيط الأمونيا والهاضم الناتج</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      ${numField('minN','تحوّل النيتروجين إلى أمونيا',S.minN,{unit:'٪ من ن',step:'1',hint:'البول واليوريا يرفعان هذه النسبة'})}
+      ${numField('inocTAN','أمونيا اللقاح TAN',S.inocTAN,{unit:'ملغ/لتر',step:'50'})}
+      ${S.useCalcPH
+        ?`<div class="flex flex-col gap-1"><span class="text-sm font-medium">pH المستخدم</span><span class="field num bg-surface2">${fmt(R.pHuse,2)}</span><span class="text-xs text-muted">محسوب من الخطوة 5 (هندرسون–هاسلبالخ)</span></div>`
+        :numField('pH','الرقم الهيدروجيني pH',S.pH,{unit:'يدوي',step:'0.1'})}
+      ${numField('Ki','ثابت التثبيط K_I,NH₃',S.Ki,{unit:'ملغ ن/لتر',step:'5',hint:'ADM1: 25 · متأقلم: 100–250'})}
+    </div>
+    <div class="flex flex-wrap gap-2 text-xs" role="group" aria-label="قيم Ki جاهزة">
+      <button type="button" class="btn btn-ghost text-xs py-1" data-ki="25">ADM1 غير متأقلم (25)</button>
+      <button type="button" class="btn btn-ghost text-xs py-1" data-ki="100">تأقلم جزئي (100)</button>
+      <button type="button" class="btn btn-ghost text-xs py-1" data-ki="250">تأقلم مرتفع (250)</button>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      ${stat('الأمونيا الكلية TAN',fmt(R.TAN,0),'ملغ ن/لتر',judge('tan',R.TAN))}
+      ${stat('الأمونيا الحرة FAN',fmt(R.FAN,0),'ملغ ن/لتر',judge('fan',R.FAN))}
+      ${stat('نسبة الصورة الحرة',fmt(R.fanFrac*100,1),'٪ من TAN')}
+      ${stat('عامل التثبيط I',fmt(R.Inh,2),'',judge('inh',R.Inh))}
+      ${stat('الميثان بعد التثبيط',fmt(R.CH4inh,2),'م³')}
+      ${stat('الميثان المفقود',fmt(R.lossInh,2),'م³')}
+      ${stat('TAN عند فقد 50٪',fmt(R.TANlim50,0),'ملغ ن/لتر')}
+      ${stat('pKa عند حرارة التشغيل',fmt(R.pKa,2),'')}
+      ${stat('كتلة الهاضم الناتج',fmt(R.digMass,0),'كغ')}
+      ${stat('م.ص.ك للهاضم',fmt(R.digTS,2),'٪')}
+      ${stat('النيتروجين الكلي',fmt(R.NperM3,2),'كغ ن/م³')}
+      ${stat('النيتروجين الأمونيومي',fmt(R.NH4perM3,2),'كغ ن/م³')}
+    </div>
+    <div class="flex flex-col gap-2 text-sm text-muted">
+      <p>عند ${S.tOp}°م يكون pKa أقل منه في التشغيل المتوسط الحرارة، فترتفع نسبة الأمونيا الحرة لنفس TAN. حدود TAN المعروضة مأخوذة من دليل FNR للتشغيل المتوسط، والنظام الحراري أكثر حساسية، لذلك عامل اللون الأصفر هنا كتحذير جدي.</p>
+      <p>عامل التثبيط I مأخوذ من صيغة التثبيط غير التنافسي في نموذج ADM1 (Batstone وآخرون، 2002)، ويطبَّق على الميثانوجينات المستهلكة للأسيتات. القيمة 25 ملغ ن/لتر تخص مزارع غير متأقلمة؛ المفاعلات المتأقلمة على الروث تتحمل أكثر بكثير، لذلك عامل I كمؤشر اتجاه وليس كتنبؤ دقيق.</p>
+      <p>النيتروجين لا يخرج مع الغاز، فهو يتركز في الهاضم الناتج ويتحول جزء أكبر منه إلى صورة أمونيومية سريعة الإتاحة للنبات، وهذا أساس قيمته كسماد.</p>
+    </div>`)}
+  ${card(`<div class="flex flex-wrap items-center justify-between gap-2"><h3 class="font-bold">نسبة الأمونيا الحرة مقابل pH</h3>
+      <span class="text-xs text-muted">مقارنة 35°م و${S.tOp}°م · النقطة = حالتك الحالية</span></div>
+    <div class="relative h-64"><canvas id="fanChart" aria-label="نسبة الأمونيا الحرة مقابل pH"></canvas></div>
+    <p class="text-xs text-muted">عند الحرارة الأعلى ينزاح المنحنى يساراً: نفس الأمونيا الكلية تعطي أمونيا حرة أكبر بعدة أضعاف. خفض pH بمقدار 0.3 يقارب أثر خفض الحرارة من 55 إلى 45°م.</p>`)}
+  ${equations(['TAN (ملغ/لتر) = (Σن × نسبة التحول + TAN اللقاح × حجم اللقاح) ÷ الحجم العامل','pKa = 0.09018 + 2729.92 ÷ (ح + 273.15)','FAN = TAN ÷ (1 + 10^(pKa − pH))','I = 1 ÷ (1 + FAN ÷ K_I,NH₃)   ·   الميثان المصحح = الميثان × I','TAN عند فقد 50٪ = K_I × (1 + 10^(pKa − pH))','كتلة الهاضم = كتلة المفاعل − (كتلة CH₄ + كتلة CO₂)'])}
+  ${saveBox(5)}`;
+}
+
+function viewStability(R){
+  const deficit=R.BAdef>0;
+  return `
+  ${card(`<h2 class="text-xl font-bold flex items-center gap-2"><span class="step-ic">${ICON.stability}</span>5. القلوية و FOS/TAC و pH</h2>
+    <p class="text-muted">هذه الخطوة تطبّق القوانين 2 و3 و5 من ملف قوانين التشغيل: قلوية البيكربونات تحمي الـ pH، ونسبة FOS/TAC تكشف تراكم الأحماض قبل أن يهبط الـ pH.</p>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      ${S.estTA
+        ?`<div class="flex flex-col gap-1"><span class="text-sm font-medium">القلوية الكلية TA</span><span class="field num bg-surface2">${fmt(R.TA,0)}</span><span class="text-xs text-muted">مقدّرة = 3.57 × TAN</span></div>`
+        :numField('TA','القلوية الكلية TA',S.TA,{unit:'ملغ/لتر كـ CaCO₃',step:'100',hint:'قياس معايرة إلى pH 4.4'})}
+      ${numField('VFA','الأحماض الطيارة VFA',S.VFA,{unit:'ملغ/لتر',step:'50',hint:'معايرة إلى pH 5.0 (طريقة نوردمان)'})}
+      ${numField('BAtarget','قلوية البيكربونات المستهدفة',S.BAtarget,{unit:'ملغ/لتر',step:'100'})}
+      <div class="flex flex-col gap-1"><span class="text-sm font-medium">نسبة CO₂ في الغاز</span><span class="field num bg-surface2">${fmt(R.co2pct,0)}٪</span><span class="text-xs text-muted">= 100 − نسبة الميثان (الخطوة 4)</span></div>
+    </div>
+    <div class="flex flex-col gap-2 text-sm">
+      <label class="flex items-center gap-2" for="estTA"><input id="estTA" type="checkbox" data-bind="estTA" class="w-4 h-4" ${S.estTA?'checked':''}> قدّر القلوية الكلية من الأمونيا (عند غياب القياس)</label>
+      <label class="flex items-center gap-2" for="useCalcPH"><input id="useCalcPH" type="checkbox" data-bind="useCalcPH" class="w-4 h-4" ${S.useCalcPH?'checked':''}> استخدم الـ pH المحسوب هنا في حسابات الأمونيا و H₂S</label>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      ${stat('قلوية البيكربونات BA',fmt(R.BA,0),'ملغ/لتر',judge('ba',R.BA))}
+      ${stat('FOS/TAC',fmt(R.FOSTAC,2),'',judge('fostac',R.FOSTAC))}
+      ${stat('pH المحسوب',fmt(R.pHcalc,2),'',judge('ph',R.pHcalc))}
+      ${stat('ثابت هنري لـ CO₂',fmt(R.KHco2,4),'مول/لتر·ض.ج')}
+      ${stat('[HCO₃⁻]',fmt(R.HCO3,4),'مول/لتر')}
+      ${stat('[CO₂] الذائب',fmt(R.CO2aq,4),'مول/لتر')}
+      ${stat('قلوية من البروتين',fmt(R.TAgen,0),'ملغ/لتر')}
+      ${stat('NaHCO₃ للتعويض',fmt(R.NaHCO3kg,1),'كغ',deficit?['warn',fmt(R.NaHCO3,0)+' ملغ/لتر']:['ok','لا عجز'])}
+    </div>
+    <div class="flex flex-col gap-2 text-sm text-muted">
+      <p>ثابت هنري لـ CO₂ ينخفض مع الحرارة، فيذوب CO₂ أقل عند ${S.tOp}°م ويرتفع الـ pH لنفس القلوية. هذا الارتفاع يزيد نسبة الأمونيا الحرة، لذلك ترتبط هذه الخطوة مباشرة بخطر التثبيط في الخطوة 6.</p>
+      ${deficit?`<p class="text-fg">العجز <span class="num">${fmt(R.BAdef,0)}</span> ملغ/لتر كـ CaCO₃ يحتاج <span class="num">${fmt(R.NaHCO3kg,1)}</span> كغ بيكربونات صوديوم للحجم العامل. تُضاف على دفعات عبر عدة أيام مع قياس FOS/TAC يومياً حتى تنزل النسبة تحت 0.3.</p>`:''}
+    </div>`)}
+  ${equations(['BA = TA − 0.71 × VFA','FOS/TAC = VFA ÷ TA   (أقل من 0.3 مستقر · 0.3–0.4 مراقبة · أكثر من 0.4 تحميل زائد)','[HCO₃⁻] = BA ÷ 50000   ·   [CO₂] = K_H × P_CO₂','K_H(ح) = 0.034 × e^(2400 × (1/ح − 1/298.15))   — يعطي ≈ 0.026 عند 35°م كما في المرجع','pH = 6.35 + log([HCO₃⁻] ÷ [CO₂])','القلوية المتولدة = 3.57 × TAN   ·   NaHCO₃ (ملغ/لتر) = العجز × 84 ÷ 50'])}
+  ${saveBox(4)}`;
+}
+
+function viewH2S(R){
+  return `
+  ${card(`<h2 class="text-xl font-bold flex items-center gap-2"><span class="step-ic">${ICON.h2s}</span>7. كبريتيد الهيدروجين H₂S</h2>
+    <p class="text-muted">الكبريت العضوي (أحماض أمينية كبريتية) والكبريتات في البول تُختزل إلى كبريتيد. يتوزع الكبريتيد بين الغاز والسائل حسب الـ pH والحرارة، ويمكن ترسيبه بأملاح الحديد قبل أن يصل إلى الغاز.</p>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      ${numField('sConv','تحوّل الكبريت إلى كبريتيد',S.sConv,{unit:'٪',step:'5',hint:'تقديري؛ يتأكد بقياس الكبريتيد في الهاضم'})}
+      ${numField('feDose','جرعة الحديد',S.feDose,{unit:'ملغ Fe/لتر',step:'50',hint:'FeCl₂ أو FeCl₃ محسوبة كحديد'})}
+      ${numField('feExcess','معامل الإفراط للحديد',S.feExcess,{unit:'×',step:'0.1',hint:'العملي 1.5–2 من النسبة الجزيئية'})}
+      ${numField('h2sTarget','الحد المستهدف في الغاز',S.h2sTarget,{unit:'جزء في المليون',step:'50',hint:'محركات CHP عادة 200–500'})}
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      ${stat('H₂S في الغاز الحيوي',fmt(R.h2sPPM,0),'جزء في المليون',judge('ppm',R.h2sPPM))}
+      ${stat('H₂S الحر في السائل',fmt(R.h2sLiq,1),'ملغ/لتر',judge('h2sliq',R.h2sLiq))}
+      ${stat('الكبريتيد الذائب الكلي',fmt(R.sulfLiq,1),'ملغ S/لتر')}
+      ${stat('الصورة غير المتأينة α',fmt(R.alphaH2S*100,1),'٪')}
+      ${stat('الكبريت الكلي في الخلطة',fmt(R.Stot*1000,1),'غ S')}
+      ${stat('المنتقل إلى الغاز',fmt(R.fracGas*100,1),'٪ من الحر')}
+      ${stat('حجم H₂S المنبعث',fmt(R.h2sGasVol*1000,1),'لتر')}
+      ${stat('pKa₁ عند حرارة التشغيل',fmt(R.pKa1,2),'')}
+    </div>`)}
+  ${card(`<h3 class="font-bold">مصير الكبريت المتحول</h3>
+    <div class="relative h-40"><canvas id="h2sChart" aria-label="توزيع الكبريت بين الغاز والسائل والراسب"></canvas></div>
+    <div class="grid sm:grid-cols-2 gap-3 text-sm">
+      <div class="bg-surface2 rounded-xl p-3 flex flex-col gap-1">
+        <span class="label-cap">الترسيب بالحديد للوصول إلى ${fmt(S.h2sTarget,0)} جزء في المليون</span>
+        <span><span class="num font-bold text-lg">${fmt(R.FeNeed,2)}</span> كغ Fe = <span class="num font-semibold">${fmt(R.FeNeedMgL,0)}</span> ملغ Fe/لتر</span>
+        <span class="text-xs text-muted">≈ <span class="num">${fmt(R.FeNeed*162.2/55.85,2)}</span> كغ FeCl₃ لا مائي، أو <span class="num">${fmt(R.FeNeed*126.75/55.85,2)}</span> كغ FeCl₂. الكلوريد المضاف يرفع الملوحة؛ راقب الموصلية.</span>
+      </div>
+      <div class="bg-surface2 rounded-xl p-3 flex flex-col gap-1">
+        <span class="label-cap">الإزالة البيولوجية بحقن الهواء في الفراغ العلوي</span>
+        <span>هواء تشغيلي <span class="num font-bold">${fmt(R.airLo,2)}–${fmt(R.airHi,2)}</span> م³ (3–6٪ من الغاز)</span>
+        <span class="text-xs text-muted">الحاجة الكيميائية الدنيا <span class="num">${fmt(R.airStoich*1000,1)}</span> لتر هواء. لا تتجاوز 6٪: حد الانفجار الأدنى للميثان في الهواء نحو 5٪ حجماً، والأكسجين الزائد يضر الميثانوجينات.</span>
+      </div>
+    </div>
+    <p class="text-sm text-muted">الماغنتيت والحديد الصفري الذي تدرسه كمضاف يربطان جزءاً من الكبريتيد أيضاً، لكن سعتهما أقل من أملاح الحديد الذائبة. ارتفاع الـ pH يخفض H₂S في الغاز لكنه يرفع الأمونيا الحرة، فالتوازن بين الخطرين يُدار معاً.</p>`)}
+  ${equations(['كب الكلي (كغ) = Σ(م.ص.ك × كب٪ ÷ 100) للمكونات الثلاثة','pKa₁ = −98.08 + 5765.4 ÷ ح + 15.0455 × ln(ح)   (Millero)','α = 1 ÷ (1 + 10^(pH − pKa₁))','H_cp = 0.1 × e^(2100 × (1/ح − 1/298.15))   مول/لتر·ض.ج','C_T = n_S ÷ (V_L + α × n_غاز ÷ H_cp)','P_H₂S = α × C_T ÷ H_cp   ·   ppm = P_H₂S × 10⁶','Fe اللازم = S المرسب × 55.85 ÷ 32.06 × معامل الإفراط'])}
+  ${saveBox(6)}`;
+}
+
+function viewRisk(R){
+  const rk=R.rk, cn=riskChip(rk.now.cls), cf=riskChip(rk.fc.cls);
+  const rows=(S.series||[]).map((r,i)=>`<tr class="border-b border-line">
+      ${['h','vt','ph','ch4','fan','pa'].map(k=>`<td class="p-1"><label class="sr-only" for="series.${i}.${k}">${k}</label><input class="field num py-1 min-w-[4.5rem]" id="series.${i}.${k}" type="number" inputmode="decimal" step="${k==='vt'||k==='ph'?'0.01':'any'}" min="0" value="${r[k]}" data-bind="series.${i}.${k}"></td>`).join('')}
+      <td class="p-1"><button type="button" class="btn btn-ghost text-xs py-1" data-delrow="${i}" ${S.series.length<=1?'disabled':''}>حذف</button></td></tr>`).join('');
+  const reasons=l=>l.length?`<ul class="list-disc ps-5 text-sm flex flex-col gap-1">${l.map(w=>`<li>${esc(w)}</li>`).join('')}</ul>`:'<p class="text-sm text-muted">لا توجد مؤشرات إنذار.</p>';
+  return `
+  ${card(`<h2 class="text-xl font-bold flex items-center gap-2"><span class="step-ic">${ICON.risk}</span>8. مؤشر الخطر والإنذار المبكر</h2>
+    <p class="text-muted">تُدخل قراءات متتابعة من الهاضم، فيحسب التطبيق ميل كل مؤشر في اليوم ودرجة خطر من 0 إلى 100، ثم يمدّد الاتجاهات 48 ساعة للأمام ويعيد التقييم. القراءات الظاهرة بيانات توضيحية فاستبدلها بقراءات هاضمك. التقدير قاعدة مبنية على عتبات الملفات الخمسة، وأوزانها تحتاج معايرة على سجل أعطال المحطة قبل الاعتماد عليها.</p>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      ${stat('الدرجة الحالية',fmt(rk.now.score,0),'من 100',cn)}
+      ${stat('المتوقعة بعد 48 ساعة',fmt(rk.fc.score,0),'من 100',cf)}
+      ${stat('ميل VFA/TIC',fmt(rk.sVt,3),'في اليوم')}
+      ${stat('ميل pH',fmt(rk.sPh,3),'في اليوم')}
+      ${stat('ميل CH₄',fmt(rk.sCh4,2),'نقطة في اليوم')}
+      ${stat('نمط التشغيل',rk.mode==='thermophilic'?'حراري':'معتدل','حسب ح التشغيل '+S.tOp+'°م')}
+      ${stat('FOS/TAC من الخطوة 5',fmt(R.FOSTAC,2),'',judge('fostac',R.FOSTAC))}
+      ${stat('أ.ح من الخطوة 6',fmt(R.FAN,0),'ملغ/لتر')}
+    </div>`)}
+  ${card(`<h3 class="font-bold">القراءات</h3>
+    <div class="overflow-x-auto"><table class="w-full text-sm"><thead><tr class="text-muted text-xs text-start">
+      <th class="p-1 text-start">الزمن (ساعة)</th><th class="p-1 text-start">VFA/TIC</th><th class="p-1 text-start">pH</th><th class="p-1 text-start">CH₄ ٪</th><th class="p-1 text-start">أ.ح (0 = غير مقيس)</th><th class="p-1 text-start">بروبيونات/أسيتات (0 = غير مقيس)</th><th></th></tr></thead>
+      <tbody>${rows}</tbody></table></div>
+    <div class="flex flex-wrap gap-2">
+      <button type="button" class="btn btn-ghost" data-addrow="blank">${ICON.plus} إضافة قراءة</button>
+      <button type="button" class="btn btn-ghost" data-addrow="cur">إضافة قراءة من الخطوتين 5 و6 (بعد 24 ساعة)</button>
+    </div>
+    <div class="relative h-56"><canvas id="riskChart" aria-label="مسار VFA/TIC الفعلي والمتوقع مع حدّي التحذير والخطر"></canvas></div>`)}
+  ${card(`<div class="grid sm:grid-cols-2 gap-4">
+      <div class="flex flex-col gap-2"><h3 class="font-bold">أسباب الدرجة الحالية</h3>${reasons(rk.now.why)}</div>
+      <div class="flex flex-col gap-2"><h3 class="font-bold">أسباب الدرجة المتوقعة بعد 48 ساعة</h3>${rk.fcRow?reasons(rk.fc.why):'<p class="text-sm text-muted">يلزم 3 قراءات على الأقل لحساب الاتجاه.</p>'}</div>
+    </div>
+    <p class="text-sm text-muted">التفسير: أخضر أقل من 15 · أصفر 15–34 · برتقالي 35–59 · أحمر 60 فأكثر. عند البرتقالي أو الأحمر: خفّض م.ت.ع أو أوقف التغذية مؤقتاً، وأضف قلوية (بيكربونات) حسب الخطوة 5، وأعد القياس بعد 24 ساعة.</p>`)}
+  ${equations(['ميل (في اليوم) = 24 × Σ(ز−ز̄)(ص−ص̄) ÷ Σ(ز−ز̄)²   لآخر 6 قراءات','الدرجة = VFA/TIC (30 فوق 0.4 · 15 فوق 0.3) + ميل VFA/TIC > 0.05 (20) + تغيّر > 10٪ عن خط الأساس (10) + بروبيونات/أسيتات > 1.4 (15) + أ.ح (20 / 10) + ميل pH < −0.1 (10) + ميل CH₄ < −2 (10)','حدود أ.ح: حراري 150 / 300 · معتدل 80 / 150 ملغ/لتر','التوقع بعد 48 ساعة: قيمة 48 س = آخر قيمة + 2 × الميل، ثم تُحسب الدرجة نفسها'])}
+  ${saveBox(7)}`;
+}
+
+function viewLog(R){
+  const list=records.length?records.map(r=>`
+    <li class="border border-line rounded-xl p-3 flex flex-col gap-2 bg-surface min-w-0">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <span class="font-semibold">${esc(r.label||STEPS[r.step]?.title||'')}</span>
+        <span class="text-xs text-muted num">${cairo(r.createdAt)} · القاهرة</span>
+      </div>
+      ${r.note?`<p class="text-sm whitespace-pre-wrap break-words">${esc(r.note)}</p>`:'<p class="text-sm text-muted">بدون ملاحظة</p>'}
+      <div class="flex flex-wrap gap-2 text-xs">
+        <span class="chip chip-info">م.ص.ك ${fmt(r.summary?.feedTS,1)}٪</span>
+        <span class="chip chip-info">ك/ن ${fmt(r.summary?.CN,1)}</span>
+        <span class="chip chip-info">CH₄ ${fmt(r.summary?.CH4h,2)} م³</span>
+        <span class="chip chip-info">م.ت.ع ${fmt(r.summary?.OLR,2)}</span>
+        <span class="chip chip-info">TAN ${fmt(r.summary?.TAN,0)}</span>
+        ${r.summary?.h2sPPM!=null?`<span class="chip chip-info">H₂S ${fmt(r.summary.h2sPPM,0)} ppm</span><span class="chip chip-info">I ${fmt(r.summary.Inh,2)}</span>`:''}
+      </div>
+      <div class="flex gap-2">
+        <button type="button" class="btn btn-ghost text-xs py-1" data-restore="${esc(r.id)}">استرجاع هذه القيم</button>
+        ${delConfirm===r.id
+          ?`<button type="button" class="btn text-xs py-1 bg-bad text-surface" data-delete="${esc(r.id)}">تأكيد الحذف</button><button type="button" class="btn btn-ghost text-xs py-1" data-cancel-del>إلغاء</button>`
+          :`<button type="button" class="btn btn-ghost text-xs py-1" data-askdel="${esc(r.id)}">${ICON.trash} حذف</button>`}
+      </div>
+    </li>`).join('')
+    :`<li class="text-muted text-sm border border-dashed border-line rounded-xl p-4">لا توجد سجلات بعد. اكتب ملاحظة في أي خطوة واضغط «حفظ هذه الخطوة»، أو احفظ السيناريو كاملاً من هنا.</li>`;
+  return `
+  ${card(`<h2 class="text-xl font-bold flex items-center gap-2"><span class="step-ic">${ICON.log}</span>9. السجل والمقارنة</h2>
+    <p class="text-muted">احفظ السيناريو الحالي باسم واضح، ثم قارن السيناريوهات المحفوظة في الرسم. كل سجل يحمل المدخلات كاملة ويمكن استرجاعه.</p>
+    <div class="grid sm:grid-cols-[minmax(0,1fr)_auto] gap-3 items-end">
+      <label class="flex flex-col gap-1 min-w-0" for="scenarioName"><span class="text-sm font-medium">اسم السيناريو</span>
+        <input id="scenarioName" class="field" type="text" placeholder="مثال: خلطة 50/20/30 — م.ص.ك 8٪ — F/I 0.5" value="${esc(notes.scenarioName||'')}"></label>
+      <button type="button" class="btn btn-primary" data-save="${LOG}">${ICON.save} حفظ السيناريو كاملاً</button>
+    </div>
+    <label for="note-${LOG}" class="sr-only">ملاحظة السيناريو</label>
+    <textarea id="note-${LOG}" rows="3" class="field resize-y leading-7" placeholder="ملخص قرارك لهذا السيناريو…">${esc(notes[LOG]||'')}</textarea>`)}
+  ${card(`<div class="flex flex-wrap items-center justify-between gap-2"><h3 class="font-bold">مقارنة السيناريوهات المحفوظة</h3>
+      <label class="text-sm flex items-center gap-2" for="cmpMetric">المؤشر
+        <select id="cmpMetric" class="field w-auto py-1">
+          ${[['CH4h','الميثان م³'],['CH4inh','الميثان بعد التثبيط م³'],['CN','ك/ن'],['OLR','م.ت.ع'],['TAN','TAN ملغ/لتر'],['FAN','FAN ملغ/لتر'],['FOSTAC','FOS/TAC'],['h2sPPM','H₂S جزء في المليون'],['balance','الميزان الحراري ك.و.س'],['Vtot','حجم المفاعل م³'],['riskNow','درجة الخطر الحالية'],['riskFc','درجة الخطر بعد 48 ساعة']].map(([k,l])=>`<option value="${k}" ${cmpMetric===k?'selected':''}>${l}</option>`).join('')}
+        </select></label></div>
+    <div class="relative h-72"><canvas id="cmpChart" aria-label="مقارنة السيناريوهات"></canvas></div>
+    <p class="text-xs text-muted">العمود الأخير «الحالي» يمثل القيم المعروضة الآن قبل الحفظ.</p>`)}
+  ${card(`<div class="flex flex-wrap items-center justify-between gap-2"><h3 class="font-bold">السجلات المحفوظة <span class="text-muted font-normal text-sm num">(${records.length})</span></h3>
+      <div class="flex flex-wrap gap-2">
+        <button type="button" class="btn btn-ghost text-sm py-1" data-export>${ICON.download} تصدير نسخة احتياطية</button>
+        <label class="btn btn-ghost text-sm py-1 cursor-pointer" for="importFile">${ICON.upload} استيراد نسخة</label>
+        <input id="importFile" type="file" accept=".json,application/json" class="sr-only">
+      </div></div>
+    <p class="text-xs text-muted">السجلات محفوظة داخل متصفح هذا الجهاز. صدّر نسخة احتياطية بانتظام، فمسح بيانات المتصفح يحذفها.</p><ul class="flex flex-col gap-3">${list}</ul>`)}`;
+}
+
+const VIEWS=[viewInputs,viewMix,viewReactor,viewGas,viewStability,viewDigestate,viewH2S,viewRisk,viewLog];
+
+/* ===================== الرسوم البيانية ===================== */
+let charts={}; let gasView='both'; let cmpMetric='CH4h';
+function baseOpts(){
+  const fg=css('--fg'),mu=css('--muted'),ln=css('--line');
+  Chart.defaults.font.family=css('--font-body'); Chart.defaults.color=mu;
+  return {fg,mu,ln};
+}
+function killCharts(){for(const k in charts){charts[k]?.destroy();} charts={};}
+function drawCharts(R){
+  killCharts(); if(!window.Chart) return;
+  const {fg,mu,ln}=baseOpts();
+  const cols=COMPS.map(c=>css(c.color));
+  const mix=$('#mixChart');
+  if(mix){
+    const keys=[['ts','م.ص.ك'],['vs','م.ص.ط'],['c','الكربون'],['n','النيتروجين'],['ch4L','الميثان الكامن']];
+    const tot={ts:R.TS,vs:R.VS,c:R.C,n:R.N,ch4L:R.CH4L};
+    charts.mix=new Chart(mix,{type:'bar',
+      data:{labels:keys.map(k=>k[1]),datasets:COMPS.map((c,i)=>({label:c.name,backgroundColor:cols[i],borderRadius:4,
+        data:keys.map(([k])=>tot[k]>0?R.per[c.key][k]/tot[k]*100:0)}))},
+      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+        scales:{x:{stacked:true,max:100,ticks:{callback:v=>v+'٪'},grid:{color:ln}},y:{stacked:true,position:'right',grid:{display:false},ticks:{color:fg}}},
+        plugins:{legend:{rtl:true,labels:{color:fg,usePointStyle:true}},tooltip:{rtl:true,callbacks:{label:x=>`${x.dataset.label}: ${fmt(x.raw,1)}٪`}}}}});
+  }
+  const gas=$('#gasChart');
+  if(gas){
+    const tMax=Math.max(10,Math.ceil(S.hrt*1.6)); const days=[...Array(tMax+1).keys()];
+    const cum=days.map(t=>R.CH4*(1-Math.exp(-S.k*t)));
+    const rate=days.map(t=>R.CH4*S.k*Math.exp(-S.k*t));
+    const acc=css('--accent'), ea=css('--earth');
+    const ds=[];
+    if(gasView!=='rate') ds.push({label:'الميثان التراكمي (م³)',data:cum,borderColor:acc,backgroundColor:acc+'22',fill:true,tension:.3,pointRadius:0,pointHoverRadius:5,yAxisID:'y'});
+    if(gasView!=='cum') ds.push({label:'المعدل اليومي (م³/يوم)',data:rate,borderColor:ea,borderDash:[],tension:.3,pointRadius:0,pointHoverRadius:5,yAxisID:gasView==='both'?'y1':'y'});
+        charts.gas=new Chart(gas,{type:'line',data:{labels:days,datasets:ds},
+      options:{vline:{x:S.hrt,label:'ز.م.هـ = '+S.hrt,color:mu,textColor:fg},responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+        scales:{x:{title:{display:true,text:'الزمن (يوم)',color:mu},grid:{color:ln}},
+          y:{beginAtZero:true,grid:{color:ln},title:{display:true,text:gasView==='rate'?'م³/يوم':'م³',color:mu}},
+          ...(gasView==='both'?{y1:{beginAtZero:true,position:'left',grid:{display:false},title:{display:true,text:'م³/يوم',color:mu}}}:{})},
+        plugins:{legend:{rtl:true,labels:{color:fg,usePointStyle:true}},tooltip:{rtl:true,callbacks:{title:i=>'اليوم '+i[0].label,label:x=>`${x.dataset.label}: ${fmt(x.raw,3)}`}}}}});
+    document.querySelectorAll('[data-gasview]').forEach(b=>{const on=b.dataset.gasview===gasView;b.style.background=on?css('--accent'):'';b.style.color=on?css('--surface'):'';b.setAttribute('aria-pressed',on)});
+  }
+  const fanC=$('#fanChart');
+  if(fanC){
+    const pk=T=>0.09018+2729.92/(T+273.15);
+    const xs=[];for(let p=6.5;p<=8.51;p+=0.05)xs.push(+p.toFixed(2));
+    const f=T=>xs.map(p=>({x:p,y:100/(1+Math.pow(10,pk(T)-p))}));
+    const acc=css('--accent'),ea=css('--earth'),bad=css('--bad');
+    charts.fan=new Chart(fanC,{type:'line',data:{datasets:[
+      {label:'35°م',data:f(35),borderColor:acc,pointRadius:0,tension:.2},
+      {label:S.tOp+'°م',data:f(S.tOp),borderColor:ea,pointRadius:0,tension:.2},
+      {label:'حالتك',data:[{x:R.pHuse,y:R.fanFrac*100}],type:'scatter',backgroundColor:bad,borderColor:bad,pointRadius:6,pointHoverRadius:8}]},
+      options:{responsive:true,maintainAspectRatio:false,parsing:false,
+        scales:{x:{type:'linear',min:6.5,max:8.5,title:{display:true,text:'pH',color:mu},grid:{color:ln}},
+          y:{beginAtZero:true,position:'right',title:{display:true,text:'FAN ٪ من TAN',color:mu},grid:{color:ln}}},
+        plugins:{legend:{rtl:true,labels:{color:fg,usePointStyle:true}},tooltip:{rtl:true,callbacks:{label:x=>`${x.dataset.label}: pH ${fmt(x.raw.x,2)} ← ${fmt(x.raw.y,1)}٪`}}}}});
+  }
+  const h2sC=$('#h2sChart');
+  if(h2sC){
+    const parts=[['في الغاز الحيوي',R.Sgas,css('--bad')],['ذائب في الهاضم',R.Sliq,css('--accent')],['مترسب كـ FeS',R.Sprec,css('--earth')]];
+    charts.h2s=new Chart(h2sC,{type:'bar',data:{labels:['الكبريتيد'],datasets:parts.map(([l,v,c])=>({label:l,data:[R.Ssulf>0?v/R.Ssulf*100:0],backgroundColor:c,borderRadius:4}))},
+      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+        scales:{x:{stacked:true,max:100,ticks:{callback:v=>v+'٪'},grid:{color:ln}},y:{stacked:true,display:false}},
+        plugins:{legend:{rtl:true,labels:{color:fg,usePointStyle:true}},tooltip:{rtl:true,callbacks:{label:x=>`${x.dataset.label}: ${fmt(x.raw,1)}٪`}}}}});
+  }
+  const rc=$('#riskChart');
+  if(rc&&R.rk.rows.length){
+    const rows=R.rk.rows, all=R.rk.fcRow?[...rows,R.rk.fcRow]:rows;
+    const labels=all.map(r=>fmt(r.h/24,1)+' يوم');
+    const act=all.map((r,i)=>i<rows.length?r.vt:null);
+    const fcs=all.map((r,i)=>i>=rows.length-1?(i===rows.length-1?rows[i].vt:r.vt):null);
+    const wl=css('--warn'),bd=css('--bad'),acc=css('--accent');
+    charts.risk=new Chart(rc,{type:'line',data:{labels,datasets:[
+      {label:'VFA/TIC الفعلي',data:act,borderColor:acc,backgroundColor:acc,tension:.25,pointRadius:3},
+      {label:'المتوقع (48 ساعة)',data:fcs,borderColor:acc,borderDash:[6,4],tension:0,pointRadius:3,hidden:!R.rk.fcRow},
+      {label:'حد التحذير 0.3',data:all.map(()=>RISK_CFG.vt[0]),borderColor:wl,borderWidth:1.5,pointRadius:0},
+      {label:'حد الخطر 0.4',data:all.map(()=>RISK_CFG.vt[1]),borderColor:bd,borderWidth:1.5,pointRadius:0}]},
+      options:{responsive:true,maintainAspectRatio:false,scales:{x:{reverse:true,grid:{display:false},ticks:{color:fg}},y:{position:'right',min:0,grid:{color:ln}}},
+        plugins:{legend:{rtl:true,labels:{color:fg,usePointStyle:true}},tooltip:{rtl:true,callbacks:{label:x=>`${x.dataset.label}: ${fmt(x.raw,3)}`}}}}});
+  }
+  const cmp=$('#cmpChart');
+  if(cmp){
+    const recs=records.slice(0,12).reverse();
+    const labels=[...recs.map((r,i)=>(r.label||STEPS[r.step]?.short||'سجل').slice(0,22)),'الحالي'];
+    const vals=[...recs.map(r=>r.summary?.[cmpMetric]??0),R[cmpMetric]];
+    const acc=css('--accent'),ea=css('--earth');
+    charts.cmp=new Chart(cmp,{type:'bar',data:{labels,datasets:[{label:$('#cmpMetric')?.selectedOptions[0]?.text||'',data:vals,
+      backgroundColor:vals.map((_,i)=>i===vals.length-1?ea:acc),borderRadius:6}]},
+      options:{responsive:true,maintainAspectRatio:false,scales:{x:{reverse:true,grid:{display:false},ticks:{color:fg}},y:{position:'right',grid:{color:ln}}},
+        plugins:{legend:{display:false},tooltip:{rtl:true,callbacks:{label:x=>fmt(x.raw,2)}}}}});
+  }
+}
+
+/* ===================== الملخص الجانبي ===================== */
+function renderSummary(R){
+  const row=(l,v,u,j)=>`<div class="flex items-center justify-between gap-2 border-b border-line pb-2 last:border-0"><span class="text-muted">${l}</span><span class="flex items-center gap-2"><span class="num font-semibold">${v}</span><span class="text-xs text-muted">${u}</span>${j?`<span class="w-2 h-2 rounded-full" style="background:var(--${j[0]==='info'?'accent':j[0]})" title="${j[1]}"></span>`:''}</span></div>`;
+  $('#summary').innerHTML=[
+    row('م.ص.ك الخلطة',fmt(R.feedTS,2),'٪'),
+    row('ماء التخفيف',fmt(R.water,1),'كغ'),
+    row('ك/ن',fmt(R.CN,1),'',judge('cn',R.CN)),
+    row('حجم المفاعل',fmt(R.Vtot,2),'م³'),
+    row('م.ت.ع',fmt(R.OLR,2),'كغ/م³/يوم',judge('olr',R.OLR)),
+    row('الميثان',fmt(R.CH4h,2),'م³'),
+    row('الغاز الحيوي',fmt(R.BGh,2),'م³'),
+    row('الكهرباء',fmt(R.elec,1),'ك.و.س'),
+    row('الميزان الحراري',fmt(R.balance,1),'ك.و.س',judge('heat',R.balance)),
+    row('FOS/TAC',fmt(R.FOSTAC,2),'',judge('fostac',R.FOSTAC)),
+    row('pH',fmt(R.pHuse,2),S.useCalcPH?'محسوب':'يدوي',judge('ph',R.pHuse)),
+    row('TAN',fmt(R.TAN,0),'ملغ/لتر',judge('tan',R.TAN)),
+    row('FAN',fmt(R.FAN,0),'ملغ/لتر',judge('fan',R.FAN)),
+    row('عامل التثبيط I',fmt(R.Inh,2),'',judge('inh',R.Inh)),
+    row('H₂S في الغاز',fmt(R.h2sPPM,0),'ppm',judge('ppm',R.h2sPPM))
+  ].join('');
+}
+
+/* ===================== العرض والتنقل ===================== */
+function renderStepper(){
+  $('#stepper').innerHTML=STEPS.map((s,i)=>`<li><button type="button" class="step-tab flex items-center gap-2 rounded-xl px-2 sm:px-3 py-2 hover:bg-surface2" data-go="${i}" ${i===current?'aria-current="step"':''}>
+    <span class="step-dot num w-7 h-7 rounded-full grid place-items-center text-sm font-bold">${i+1}</span>
+    <span class="step-name text-sm font-semibold text-muted whitespace-nowrap flex items-center gap-1.5">${ICON[s.id]||''}<span class="hidden sm:inline">${s.title}</span><span class="sm:hidden">${s.short}</span></span></button></li>`).join('');
+}
+function render(){
+  const R=compute(S);
+  renderStepper();
+  $('#stepPanel').innerHTML=VIEWS[current](R);
+  renderSummary(R);
+  drawCharts(R);
+}
+function refreshLive(){ // تحديث بدون إعادة بناء الحقول للحفاظ على التركيز
+  const R=compute(S);
+  const focusId=document.activeElement?.id; const pos=document.activeElement?.selectionStart;
+  $('#stepPanel').innerHTML=VIEWS[current](R);
+  renderSummary(R); drawCharts(R);
+  if(focusId){const el=document.getElementById(focusId); if(el){el.focus(); try{if(pos!=null&&el.type==='text')el.setSelectionRange(pos,pos)}catch(e){}}}
+}
+function go(i){current=Math.max(0,Math.min(STEPS.length-1,i));render();window.scrollTo({top:0,behavior:'smooth'})}
+
+function setPath(path,val){const ks=path.split('.');let o=S;for(let i=0;i<ks.length-1;i++)o=o[ks[i]];o[ks.at(-1)]=val;}
+
+let liveT;
+document.addEventListener('input',e=>{
+  const el=e.target;
+  if(el.matches('textarea[id^="note-"]')){notes[+el.id.slice(5)]=el.value;return;}
+  if(el.id==='scenarioName'){notes.scenarioName=el.value;return;}
+  const b=el.dataset.bind; if(!b) return;
+  if(el.type==='checkbox'){setPath(b,el.checked);refreshLive();return;}
+  const v=parseFloat(el.value); if(!Number.isFinite(v)) return;
+  setPath(b,v); clearTimeout(liveT); liveT=setTimeout(refreshLive,350);
+});
+document.addEventListener('change',e=>{
+  if(e.target.id==='cmpMetric'){cmpMetric=e.target.value;drawCharts(compute(S));}
+  else if(e.target.dataset.bind&&e.target.type!=='checkbox'){clearTimeout(liveT);refreshLive();}
+});
+let delConfirm=null;
+document.addEventListener('click',async e=>{
+  const t=e.target.closest('button'); if(!t) return;
+  if(t.dataset.go!=null){go(+t.dataset.go);return;}
+  if(t.dataset.gasview){gasView=t.dataset.gasview;drawCharts(compute(S));return;}
+  if(t.dataset.ki){S.Ki=+t.dataset.ki;refreshLive();return;}
+  if(t.dataset.save!=null){await saveStep(+t.dataset.save,t);return;}
+  if(t.dataset.restore){const r=records.find(x=>x.id===t.dataset.restore);if(r){S=mergeInputs(r.inputs);toast('تم استرجاع القيم');go(r.step<LOG&&r.step!=null?r.step:0);}return;}
+  if(t.dataset.askdel){delConfirm=t.dataset.askdel;refreshLive();return;}
+  if(t.hasAttribute('data-cancel-del')){delConfirm=null;refreshLive();return;}
+  if(t.dataset.delete){await removeRecord(t.dataset.delete);delConfirm=null;return;}
+  if(t.dataset.delrow!=null){S.series.splice(+t.dataset.delrow,1);refreshLive();return;}
+  if(t.dataset.addrow){
+    const last=S.series[S.series.length-1]||{h:-24,vt:0.2,ph:7.5,ch4:60,fan:0,pa:0}; const R=compute(S);
+    S.series.push(t.dataset.addrow==='cur'
+      ?{h:last.h+24,vt:+(+R.FOSTAC).toFixed(3),ph:+(+R.pHuse).toFixed(2),ch4:S.ch4pct,fan:+(+R.FAN).toFixed(0),pa:0}
+      :{...last,h:last.h+24});
+    refreshLive();return;}
+  if(t.id==='resetBtn'){S=clone(DEFAULTS);toast('أعيدت القيم المرجعية');render();return;}
+});
+
+/* ===================== الحفظ ===================== */
+let db=null, records=[], unsub=null;
+const LS='wetdig.records.v1';
+function lsLoad(){try{return JSON.parse(localStorage.getItem(LS)||'[]')}catch(e){return []}}
+function lsSave(a){try{localStorage.setItem(LS,JSON.stringify(a));return true}catch(e){return false}}
+function setBadge(mode){
+  const b=$('#storeBadge');
+  if(mode==='cloud'){b.className='chip chip-ok';b.textContent='الحفظ متصل بالسحابة';}
+  else if(mode==='local'){b.className='chip chip-warn';b.textContent='الحفظ في هذا المتصفح فقط';}
+  else {b.className='chip chip-bad';b.textContent='الحفظ غير متاح';}
+}
+async function initStore(){
+  records=lsLoad(); setBadge(lsSave(records)?'local':'none');
+  try{
+    db=window.claude?.use?await window.claude.use('db'):null;
+    if(window.claude?.use) await window.claude.use('user');
+  }catch(e){db=null}
+  if(!db){if(current===LOG)refreshLive();return;}
+  setBadge('cloud');
+  unsub=db.collection('records').orderBy('createdAt','desc').limit(200).onSnapshot(snap=>{
+    records=snap.docs.map(d=>({id:d.id,...d.data()}));
+    if(current===LOG)refreshLive();
+  },err=>{db=null;setBadge('local');records=lsLoad();});
+}
+async function saveStep(idx,btn){
+  const R=compute(S);
+  const noteEl=document.getElementById('note-'+idx);
+  const note=(noteEl?.value||'').trim();
+  const label=idx===LOG?((notes.scenarioName||'').trim()||'سيناريو بدون اسم'):STEPS[idx].title;
+  const pick=['feedTS','CN','water','Vtot','Vw','OLR','CH4h','BGh','elec','balance','TAN','FAN','digMass','reactorTS','FOSTAC','pHuse','Inh','CH4inh','h2sPPM','h2sLiq','FeNeed','riskNow','riskFc'];
+  const rec={createdAt:Date.now(),step:idx,label,note,inputs:clone(S),summary:Object.fromEntries(pick.map(k=>[k,+(+R[k]).toFixed(4)]))};
+  btn.disabled=true; const old=btn.innerHTML; btn.textContent='جارٍ الحفظ…';
+  try{
+    if(db){await db.collection('records').add(rec);}
+    else{rec.id='l'+rec.createdAt;records=[rec,...records];if(!lsSave(records))throw new Error('ls');}
+    notes[idx]='';
+    if(idx===LOG)notes.scenarioName='';
+    toast('حُفظ: '+label+' — '+cairo(rec.createdAt));
+    if(current===LOG||!db) refreshLive(); else if(noteEl) noteEl.value='';
+  }catch(e){
+    if(db&&e?.code==='invalid_argument'){toast('لا تملك صلاحية الحفظ في هذه النسخة المشتركة');}
+    else if(e?.code==='quota_exceeded'){toast('امتلأت مساحة الحفظ؛ احذف سجلات قديمة ثم أعد المحاولة');}
+    else toast('تعذّر الحفظ؛ تحقق من الاتصال وأعد المحاولة');
+  }finally{btn.disabled=false;btn.innerHTML=old;}
+}
+async function removeRecord(id){
+  try{
+    if(db&&!id.startsWith('l')){await db.doc('records/'+id).delete();}
+    else{records=records.filter(r=>r.id!==id);lsSave(records);refreshLive();}
+    toast('حُذف السجل');
+  }catch(e){toast('تعذّر الحذف؛ أعد المحاولة');}
+}
+
+/* ===================== الثيم ===================== */
+const mq=window.matchMedia('(prefers-color-scheme: dark)');
+mq.addEventListener?.('change',()=>drawCharts(compute(S)));
+new MutationObserver(()=>drawCharts(compute(S))).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+try{const st=JSON.parse(localStorage.getItem('wetdig.state.v1')||'null');if(st&&st.S){S=mergeInputs(st.S);if(Number.isInteger(st.current))current=Math.max(0,Math.min(STEPS.length-1,st.current));}}catch(e){}
+render();
+initStore();
+/* ===================== إضافات النسخة المستقلة ===================== */
+document.querySelectorAll('#resetBtn').forEach(b=>b.innerHTML=b.innerHTML.replace('<!--ic-reset-->',ICON.reset));
+document.querySelectorAll('.chip').forEach(c=>{if(c.innerHTML.includes('<!--ic-offline-->'))c.innerHTML=c.innerHTML.replace('<!--ic-offline-->',ICON.offline);});
+// حفظ آخر المدخلات تلقائياً على هذا الجهاز
+const LS_STATE='wetdig.state.v1';
+let stT;function saveState(){clearTimeout(stT);stT=setTimeout(()=>{try{localStorage.setItem(LS_STATE,JSON.stringify({S,current}))}catch(e){}},400);}
+const _render=render;render=function(){_render();saveState();};
+const _refresh=refreshLive;refreshLive=function(){_refresh();saveState();};
+// تصدير واستيراد السجلات
+function stamp(){const d=new Date();const p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'_'+p(d.getHours())+p(d.getMinutes());}
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-export]');if(!t)return;
+  const blob=new Blob([JSON.stringify({app:'wet-digester-lab',exportedAt:new Date().toISOString(),inputs:S,records},null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='wet-digester-backup_'+stamp()+'.json';
+  document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1500);
+  toast('صُدّرت '+records.length+' سجلات');
+});
+document.addEventListener('change',async e=>{
+  if(e.target.id!=='importFile')return;const f=e.target.files&&e.target.files[0];if(!f)return;
+  try{
+    const j=JSON.parse(await f.text());const inc=Array.isArray(j)?j:(j.records||[]);
+    if(!Array.isArray(inc))throw new Error('fmt');
+    const have=new Set(records.map(r=>r.id+'|'+r.createdAt));let added=0;
+    for(const r of inc){if(!r||!r.createdAt)continue;const key=r.id+'|'+r.createdAt;if(have.has(key))continue;
+      if(db){const {id,...rest}=r;await db.collection('records').add(rest);}else{records.push({...r,id:r.id||('l'+r.createdAt)});}
+      have.add(key);added++;}
+    if(!db){records.sort((a,b)=>b.createdAt-a.createdAt);lsSave(records);}
+    toast(added?'استُورد '+added+' سجلات':'لا سجلات جديدة في الملف');refreshLive();
+  }catch(err){toast('الملف غير صالح؛ اختر ملف JSON صدّره هذا التطبيق');}
+  e.target.value='';
+});
+if(!window.__bootErrors.length){document.getElementById('bootMsg').hidden=true;}
+
+</script>
+
+
+<script>
+if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
+  window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});
+}
+</script>
+</body>
+</html>
