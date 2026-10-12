@@ -1046,7 +1046,7 @@ details[open] .chev{transform:rotate(180deg)}
       <p class="text-muted mt-1 max-w-2xl">صمّم خلطتك خطوة بخطوة: من خصائص المكونات الثلاثة إلى حجم المفاعل، إنتاج الغاز الحيوي، الاستقرار (القلوية و FOS/TAC و pH)، تثبيط الأمونيا، كبريتيد الهيدروجين H₂S، وقيمة الهاضم الناتج كسماد.</p>
     </div>
     <div class="flex flex-wrap items-center gap-2 text-sm">
-      <span class="chip chip-ok"><!--ic-offline--> يعمل دون إنترنت</span>
+      <span id="offChip" class="chip chip-ok"><!--ic-offline--> <span id="offTxt">يعمل دون إنترنت</span></span>
       <span id="storeBadge" class="chip chip-info">جارٍ تجهيز الحفظ…</span>
       <button id="resetBtn" class="btn btn-ghost text-sm" type="button"><!--ic-reset--> استعادة القيم المرجعية</button>
     </div>
@@ -1928,9 +1928,19 @@ if(!window.__bootErrors.length){document.getElementById('bootMsg').hidden=true;}
 
 
 <script>
-if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
-  window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});
-}
+(function(){
+  const chip=document.getElementById('offChip'), txt=document.getElementById('offTxt');
+  const set=(k,s)=>{if(!chip)return;chip.className='chip chip-'+k;txt.textContent=s;};
+  if(!('serviceWorker' in navigator) || !/^https?:$/.test(location.protocol)) return;
+  if(!navigator.serviceWorker.controller) set('warn','جارٍ الحفظ للعمل دون إنترنت…');
+  navigator.serviceWorker.register('sw.js').catch(()=>set('bad','تعذّر الحفظ للعمل دون إنترنت'));
+  navigator.serviceWorker.addEventListener('message',e=>{
+    if(e.data&&e.data.type==='ready') set('ok','جاهز للعمل دون إنترنت');
+    if(e.data&&e.data.type==='updated') toast('وصل تحديث جديد للمختبر، أغلق التطبيق وافتحه لتطبيقه');
+  });
+  navigator.serviceWorker.ready.then(()=>{ if(navigator.serviceWorker.controller) set('ok','جاهز للعمل دون إنترنت'); });
+  navigator.serviceWorker.addEventListener('controllerchange',()=>set('ok','جاهز للعمل دون إنترنت'));
+})();
 </script>
 </body>
 </html>
